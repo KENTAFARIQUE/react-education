@@ -1,0 +1,27 @@
+.sidebar {
+  position: fixed;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 100vh;          
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;   
+  background-color: #151B1F;
+  padding: 20px 0 20px 0;
+  z-index: 100;        
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.sidebar button:hover {
+  opacity: 0.7;
+}

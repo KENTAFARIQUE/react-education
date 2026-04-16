@@ -1,0 +1,79 @@
+.main {
+    margin-left: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;  
+    min-height: 100vh;
+}
+
+.heroBlock {
+  padding: 0 64px 0 64px ;
+  display: grid;
+  grid-template-rows: 64px 1fr 64px; 
+  min-height: 100vh;                 
+}
+
+header {
+  display: flex;
+  margin-top: 32px;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%; 
+  box-sizing: border-box;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #0EC261;
+}
+
+.infoblock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+}
+
+.txtblock h1 {
+  margin-bottom: 32px;
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 94%;
+  letter-spacing: 0%;
+  color: #0EC261;
+}
+
+.txtblock h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 70px;
+  line-height: 94%;
+  letter-spacing: 0%;
+}
+
+.txtblock span {
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #999999;
+}
+
+.geo {
+    display: flex;
+    justify-content: space-between;
+}
+
+footer {
+  display: flex;
+  margin-bottom: 32px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 20px;
+}
