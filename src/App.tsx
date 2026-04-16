@@ -1,14 +1,14 @@
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
 import './App.css'
-import MainView from './views/mainView/MainView'
-import SideBar from './components/sideBar/SideBar'
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
     <>
-    <SideBar/>
-    <div className="App">
-      <MainView/>
-    </div>
     </>
   )
 }
