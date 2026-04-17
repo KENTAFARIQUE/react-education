@@ -1,0 +1,22 @@
+
+.button {
+    background: linear-gradient(to right, #0EC261, #039F67);
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.button:hover {
+  background: linear-gradient(to right, #0B934A, #026E47);
+}
+
+.button:active {
+    background: linear-gradient(to right, #076432, #013C27);
+}

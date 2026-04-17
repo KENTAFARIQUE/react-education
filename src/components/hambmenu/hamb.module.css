@@ -1,34 +1,59 @@
-.main {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
-    margin-left: 64px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;  
+@keyframes moveLeft {
+  from {
+    transform: translateX(-1000px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
+
+@keyframes moveRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-1000px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.main {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
+      display: grid;
+      grid-template-columns: 1fr 1fr;  
+  }
 
 .back1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #151B1F;
-}
-
-.back2 {
-    background-color: #151B1FCF;
-}
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #151B1F;
+      z-index: 100;
+      
+  }
 
 .btncont {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-top: 32px;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 32px;
+  }
 
-.txtbtn {
+  .txtbtn {
+    padding: 0px;
     background: none;
     border: none;
     color: white;
@@ -39,23 +64,78 @@
     font-size: 32px;
     line-height: 100%;
     letter-spacing: 0%;
+  }
+
+  .txtbtn:hover {
+    color: #0EC261;
+  }
+
+  .linkscontainer {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    padding-top: 32px;
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .icon:hover path {
+    fill: #0EC261;
+  }
+
+@media (min-width: 1280px) {
+
+  .main {
+    margin-left: 64px;
+  }
+  .back1 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #151B1F;
+      animation: moveLeft 0.3s cubic-bezier(0,.97,.01,.97);
+      z-index: 100;
+      
+  }
+
+
+  .back2 {
+      background-color: #151B1FCF;
+      animation: fadeIn 0.3s ease-in-out;
+  }
+
+  
 }
 
-.linkscontainer {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  padding-top: 32px;
+@media (max-width: 1024px) {
+    .main { 
+        grid-template-columns: 1fr; 
+    }
+    .back1 {
+      height: 100%;
+    }
+    .back2{
+      display: none;
+    }
 }
 
-.icon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
+@media (max-width: 430px) {
+    .main { 
+        grid-template-columns: 1fr; 
+    }
+    .back1 {
+      height: 100%;
+    }
+    .back2{
+      display: none;
+    }
 }
