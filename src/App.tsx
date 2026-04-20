@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SideBar from './components/sideBar/SideBar';
+import MainView from './views/mainView/MainView';
 import './App.css'
-import MainView from './views/mainView/MainView'
-import SideBar from './components/sideBar/SideBar'
 
 function App() {
   return (

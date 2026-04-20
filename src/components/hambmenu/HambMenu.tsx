@@ -1,4 +1,3 @@
-// HambMenu.tsx
 import styles from './hamb.module.css';
 import FbIco from '../../assets/Facebook_white.svg?react';
 import TgIco from '../../assets/Telegram_white.svg?react';
