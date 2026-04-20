@@ -28,6 +28,9 @@
 .togglebtn {
   color:  #ffffff;
 }
+.togglebtnClosed {
+  color: #ffffff;
+}
 
 .language {
   color: #0EC261;
@@ -54,8 +57,14 @@
     background-color: #ffffff;
     z-index: 10000;        
   }
+  .sidebar.menuOpen {
+    background-color: #151B1F; 
+  }
   .togglebtn {
     color: #121212;
+  }
+  .togglebtnClosed {
+    color: #ffffff;
   }
   .language {
     display: none;
