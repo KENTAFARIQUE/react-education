@@ -139,7 +139,8 @@
     .back1 {
       height: 100%;
       display: block;
-      padding-top: 64px;
+      padding-top: 72px;
+      padding-left: 24px;
       animation: none;
     }
     .back2{

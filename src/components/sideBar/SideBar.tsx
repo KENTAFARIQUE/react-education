@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import HambMenu from '../hambmenu/HambMenu';
 import BurgerIco from '../../assets/menu_btn.svg?react'
 import CloseIco from '../../assets/menu_btn_close.svg?react'
-
 import styles from './sidebar.module.css';
 
 const SideBar = () => {
@@ -31,5 +30,4 @@ const SideBar = () => {
     </>
     );
 }
-
 export default SideBar;

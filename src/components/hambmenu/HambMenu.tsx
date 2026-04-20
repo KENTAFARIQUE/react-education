@@ -44,6 +44,7 @@ const HambMenu = ({ isOpen }: HambMenuProps) => {
           <FbIco className={styles.icon} />
           <InstIco className={styles.icon} />
         </div>
+        <button className={styles.language}>Eng</button>
       </div>
       <div className={styles.back2}></div>
     </div>
