@@ -114,7 +114,7 @@ footer .info {
   color: #999999;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .main { 
         grid-template-columns: 1fr; 
     }
@@ -123,7 +123,7 @@ footer .info {
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 767px) {
     .main { 
         grid-template-columns: 1fr; 
         margin-left: 0;
