@@ -1,21 +1,26 @@
 import styles from "./Button.module.css"
 
+type ButtonVariant = 'primary' | 'green' | 'cian' | 'orange' | 'purple'
+type ButtonWidth = 'small' | 'large'
+
 interface ButtonProps {
-  text: string;
+  variant?: ButtonVariant
+  width?: ButtonWidth
+  children: React.ReactNode
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
 }
 
 
-const Button = ({ text, onClick, disabled = false, className }: ButtonProps) => {
+const Button = ({ children, onClick, className, disabled = false,  variant = 'primary', width = 'large'}: ButtonProps) => {
     return (
-        <button 
-            className={`${styles.button} ${className || ''}`}  
+        <button
             onClick={onClick}
             disabled={disabled}
+            className={`${styles.button} ${styles[variant]} ${styles[width]} ${disabled ? styles.disabled : ''} ${className || ''}`}
         >
-            {text}   
+            <span className={styles.content}>{children}</span>  
         </button> 
     )
 }

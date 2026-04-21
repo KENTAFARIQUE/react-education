@@ -1,3 +1,24 @@
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+
 .slider {
 	display: flex;
 	align-items: center;
@@ -37,23 +58,25 @@
 .arrow:last-of-type .arrowIco {
 	transform: scaleX(-1);
 }
-.arrow:hover {
+.slider[data-active-color="green"] .arrow:hover {
 	background: #0ec26236;
 }
 
+.slider[data-active-color="cian"] .arrow:hover {
+	background: #00b4d836;
+}
+
+.slider[data-active-color="orange"] .arrow:hover {
+	background: #ff8c0036;
+}
+
+.slider[data-active-color="purple"] .arrow:hover {
+	background: #9b59b636;
+}
 .mainBlock {
 	width: 100%;
 	height: 100%;
 	position: relative;
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
 }
 
 .slideImage {
@@ -87,16 +110,7 @@
 	animation: slideUp 0.5s ease-in-out;
 }
 
-@keyframes slideUp {
-	from {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+
 
 .content h1 {
 		margin: 0;
@@ -151,5 +165,3 @@ letter-spacing: 0%;
 .dot:hover {
 	background: rgba(255, 255, 255, 0.8);
 }
-
-

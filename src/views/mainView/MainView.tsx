@@ -20,7 +20,7 @@ const MainView = () => {
                     <h1>Need for drive</h1>
                     <span>Поминутная аренда авто твоего города</span>
                 </div>
-                <Button className={styles.heroButton} text="Забронировать" />
+                <Button className={styles.heroButton}>Забронировать</Button>
             </div>
                 <footer>
                     <span className={styles.info}>© 2016-2019 «Need for drive»</span>

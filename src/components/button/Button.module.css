@@ -1,22 +1,94 @@
 .button {
-    background: linear-gradient(to right, #0EC261, #039F67);
-    color: #fff;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-family: Roboto;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 100%;
-    letter-spacing: 0%;
-    text-align: center;
-    transition: all 0.3s ease-in-out;
+	position: relative;
+	background: linear-gradient(to right, #0EC261, #039F67);
+	color: #fff;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	font-family: Roboto;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 100%;
+	letter-spacing: 0%;
+	text-align: center;
+	padding: 16px 32px;
+	transition: all 0.3s ease-in-out;
+	overflow: hidden;
 }
 
-.button:hover {
-    background: linear-gradient(to right, #0B934A, #026E47);
+.small {
+	width: 164px;
+	border-radius: 4px;
+	padding: 12px 24px;
 }
 
-.button:active {
-    background: linear-gradient(to right, #076432, #013C27);
+.large {
+	width: 250px;
+	border-radius: 8px;
+	padding: 16px 32px;
+}
+
+/* Градиенты */
+.primary {
+	background: linear-gradient(to right, #0EC261, #039F67);
+}
+
+.green {
+	background: linear-gradient(to right, #13493F, #0C7B1B);
+}
+
+.cian {
+	background: linear-gradient(to right, #132949, #0C7B67);
+}
+
+.orange {
+	background: linear-gradient(to right, #493013, #7B0C3B);
+}
+
+.purple {
+	background: linear-gradient(to right, #281349, #720C7B);
+}
+
+/* Затемнение при наведении - работает только на кнопке */
+.button::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0);
+	transition: background 0.3s ease;
+	border-radius: inherit;
+	z-index: 1;
+}
+
+.button:hover::before {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.button:active::before {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+/* Контент поверх псевдоэлемента */
+.button span {
+	position: relative;
+	z-index: 2;
+}
+
+/* Disabled состояние */
+.disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.disabled::before {
+	display: none;
+}
+
+/* Focus состояние */
+.button:focus-visible {
+	outline: 2px solid #0EC261;
+	outline-offset: 2px;
 }

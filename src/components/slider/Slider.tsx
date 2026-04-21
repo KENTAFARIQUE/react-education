@@ -8,11 +8,14 @@ import slide2 from '../../assets/slider/slide2.jpg';
 import slide3 from '../../assets/slider/slide3.jpg';
 import slide4 from '../../assets/slider/slide4.jpg';
 
+type ButtonVariant = 'green' | 'cian' | 'orange' | 'purple'
+
 interface Slide {
   id: number;
   title: string;
   description: string;
   image: string;
+  btn_var: ButtonVariant;
 }
 
 const slides: Slide[] = [
@@ -21,24 +24,28 @@ const slides: Slide[] = [
     title: 'Бесплатная парковка',
     description: 'Оставляйте машину на платных городских парковках и разрешенных местах, не нарушая ПДД, а также в аэропортах.',
     image: slide1,
+    btn_var: 'green'
   },
   {
     id: 2,
     title: 'Страховка включена',
     description: 'Каждая поездка застрахована на сумму до 2 миллионов рублей. Вы можете быть уверены в своей безопасности.',
     image: slide2,
+    btn_var: 'cian'
   },
   {
     id: 3,
     title: 'Заправка без остановки',
     description: 'Заправляйтесь на наших партнерских АЗС без дополнительной оплаты. Бензин уже включен в стоимость аренды.',
     image: slide3,
+    btn_var: 'orange'
   },
   {
     id: 4,
     title: 'Круглосуточная поддержка',
     description: 'Наша служба поддержки работает 24/7. Мы всегда готовы помочь вам в любой ситуации.',
     image: slide4,
+    btn_var: 'purple'
   },
 ];
 
@@ -132,9 +139,8 @@ const Slider = () => {
   }, [isAutoPlaying]);
 
   const currentSlide = slides[currentIndex];
-
   return (
-    <div className={styles.slider}>
+    <div className={styles.slider} data-active-color={currentSlide.btn_var}>
       <button className={styles.arrow} onClick={handlePrev}>
         <ArrowIcon className={`${styles.arrowIco} ${styles.arrowLeft}`} />
       </button>
@@ -149,7 +155,7 @@ const Slider = () => {
         <div className={styles.content}>
           <h1>{currentSlide.title}</h1>
           <p>{currentSlide.description}</p>
-          <Button className={styles.heroButton} text="Подробнее" />
+          <Button className={styles.heroButton} variant={currentSlide.btn_var}>Подробнее</Button>
         </div>
         <div className={styles.dots}>
           {slides.map((_, index) => (
