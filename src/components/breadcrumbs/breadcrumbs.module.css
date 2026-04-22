@@ -1,0 +1,51 @@
+.breadcrumbs {
+	display: flex;
+	gap: 16px;
+}
+
+.step {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.stepLabel {
+	font-size: 14px;
+	font-weight: 700;
+	color: #999;
+	transition: color 0.3s ease;
+	white-space: nowrap;
+}
+
+.stepLabel.activeLabel {
+	color: #0EC261;
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+	.breadcrumbs {
+		flex-wrap: wrap;
+		gap: 16px;
+	}
+
+	.step {
+		flex: auto;
+		min-width: calc(50% - 8px);
+	}
+
+	.line {
+		display: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.stepLabel {
+		font-size: 12px;
+	}
+
+	.stepNumber {
+		width: 28px;
+		height: 28px;
+		font-size: 12px;
+	}
+}

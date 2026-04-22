@@ -1,0 +1,28 @@
+header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%; 
+  box-sizing: border-box;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+h3 {
+    font-size: 32px;
+}
+
+.geo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+    
+}
+.geo .city{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #999999;
+}

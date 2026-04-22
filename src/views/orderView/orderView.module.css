@@ -1,0 +1,38 @@
+@media (min-width: 1280px) {
+    .main {
+        margin-left: 64px;
+    }   
+    .Header {
+        margin-top: 0;
+    }
+    .Container {
+	    max-width: 1400px;
+	    margin: 0 auto;
+	    width: 100%;
+	    padding: 0;
+	    box-sizing: border-box;
+    }
+    .breadcrumbs {
+        margin-top: 8px;
+    }
+    hr {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        margin-bottom: 0;
+        border: 1px solid #EEEEEE;
+    }
+    .MainContainer {
+        display: grid;
+        grid-template-columns: 1.5fr 0.5fr;  
+        min-height: 100vh;
+    }
+    .OrderSummary {
+        border-left: 2px solid #EEEEEE;
+    }
+}
+
+
