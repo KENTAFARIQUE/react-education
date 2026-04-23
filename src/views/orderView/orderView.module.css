@@ -1,4 +1,4 @@
-@media (min-width: 1280px) {
+@media (min-width: 1000px) {
     .main {
         margin-left: 64px;
     }   
@@ -6,7 +6,7 @@
         margin-top: 0;
     }
     .Container {
-	    max-width: 1400px;
+	    max-width: 90%;
 	    margin: 0 auto;
 	    width: 100%;
 	    padding: 0;

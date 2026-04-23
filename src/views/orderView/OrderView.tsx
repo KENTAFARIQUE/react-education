@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-
 import Header from '../../components/header/Header';
 import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
+import GeoView from '../steps/Geo';
+
 import styles from  './orderView.module.css'
 
 const OrderView = () => {
