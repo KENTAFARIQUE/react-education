@@ -28,11 +28,53 @@
     .MainContainer {
         display: grid;
         grid-template-columns: 1.5fr 0.5fr;  
-        min-height: 100vh;
+        height: 100%;
     }
     .OrderSummary {
         border-left: 2px solid #EEEEEE;
+        height: 100%;
     }
+    .orderTextContainer {
+        display: flex;
+        padding: 32px;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 287px;
+    }
+
+    .orderTextContainer h5:first-child {
+        text-align: right;
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .orderTextContainer span {
+        text-align: right;
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    .price {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+    }
+
+    .price h5 {
+        margin: 0;
+    }
+
+    .price h4 {
+        margin: 0;
+        font-weight: 400;
+    }
+
+    .orderTextContainer button {
+        margin-top: 8px;
+        width: 100%;
+    }
+    
 }
 
 

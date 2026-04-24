@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import Button from '../../components/button/Button';
 import Header from '../../components/header/Header';
 import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
-import GeoView from '../steps/Geo';
+import GeoBlock from '../steps/GeoBlock';
 
 import styles from  './orderView.module.css'
 
@@ -40,8 +41,15 @@ const OrderView = () => {
             </div>
             <hr />
             <div className={styles.MainContainer}>
-                <div className={styles.OrderStep}></div>
-                <div className={styles.OrderSummary}></div>
+                <div className={styles.OrderStep}><GeoBlock /></div>
+                <div className={styles.OrderSummary}>
+					<div className={styles.orderTextContainer}>
+						<h5>Ваш заказ:</h5>
+						<span>Пункт выдачи</span>
+						<div className={styles.price}><h5>Цена:</h5><h4>от 8 000 до 12 000 ₽</h4></div>
+						<Button disabled={true}><span>Выбрать модель</span></Button>
+					</div>
+				</div>
             </div>
         </div>
     </div>
