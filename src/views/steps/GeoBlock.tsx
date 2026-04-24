@@ -1,4 +1,5 @@
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import Input from '../../components/ui/input/Input';
 import styles from './geo.module.css';
 
 interface GeoBlockProps {
@@ -23,21 +24,18 @@ const GeoBlock = ({ onSelectLocation }: GeoBlockProps) => {
                 <div className={styles.inputContainer}>
                     <div className={styles.inputRow}>
                         <div className={`${styles.inputText} ${styles.right}`}>Город</div>
-                        <input
-                            type="text"
-                            className={styles.inputField}
-                            value="Ульяновск"
-                            readOnly
-                        />
+                        <Input
+					value="Ульяновск"
+					labelAlign="right"
+						/>
                     </div>
 
                     <div className={styles.inputRow}>
                         <div className={`${styles.inputText} ${styles.left}`}>Пункт выдачи</div>
-                        <input
-                            type="text"
-                            className={styles.inputField}
-                            placeholder="Начните вводить пункт ..."
-                        />
+                        <Input
+					value="kjhjkk"
+					labelAlign="right"
+				/>
                     </div>
                 </div>
                     <span className={styles.inputText}>Выбрать на карте:</span>

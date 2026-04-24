@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import Button from '../../components/button/Button';
+import Button from '../ui/button/Button';
 import styles from './slider.module.css';
 import ArrowIcon from '../../assets/slider/arrow.svg?react';
 

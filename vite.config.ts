@@ -7,8 +7,11 @@ export default defineConfig({
   base: '/react-education/',
   plugins: [react(), svgr()],
   server: {
-    watch: {
-      usePolling: true,
-    },
-  },
+		watch: {
+			usePolling: false,  // Включаем polling для Windows
+		},
+		hmr: {
+			overlay: false,
+		},
+	},
 })

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 import Slider from '../../components/slider/Slider';
-import Button from '../../components/button/Button';
+import Button from '../../components/ui/button/Button';
 import Header from '../../components/header/Header';
 import styles from './mainView.module.css'
 
