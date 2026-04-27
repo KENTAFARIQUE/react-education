@@ -30,7 +30,6 @@
 	transition: fill 0.3s ease;
 }
 
-/* Активный треугольник (если нужно) */
 .step:has(.activeLabel) + .step .triangle {
 	fill: #0EC261;
 }
@@ -48,38 +47,17 @@
 	display: none;
 }
 
-/* Десктоп - без скролла */
 @media (min-width: 769px) {
 	.breadcrumbsWrapper {
 		overflow-x: visible;
 	}
 }
 
-/* Мобильные - скролл с центрированием активного элемента */
 @media (max-width: 768px) {
-	.breadcrumbs {
-		gap: 12px;
-		padding: 0 20px;
-	}
-
-	.step {
-		gap: 12px;
-	}
-
-	.stepLabel {
-		font-size: 12px;
-	}
-
-	.triangle {
-		width: 10px;
-		height: 10px;
-	}
-}
-
-@media (max-width: 480px) {
 	.breadcrumbs {
 		gap: 8px;
 		padding: 0 16px;
+		justify-content: space-between;
 	}
 
 	.step {

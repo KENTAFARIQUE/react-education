@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Input.module.css';
 
 interface InputProps {
@@ -6,11 +6,16 @@ interface InputProps {
 	placeholder?: string;
 	readOnly?: boolean;
 	onChange?: (value: string) => void;
-	labelAlign?: 'left' | 'right';
+	onFocus?: () => void;
 }
 
-const Input = ({ value, placeholder, readOnly, onChange, labelAlign = 'left' }: InputProps) => {
+const Input = ({ value, placeholder, readOnly, onChange, onFocus }: InputProps) => {
 	const [inputValue, setInputValue] = useState(value || '');
+
+	// Синхронизируем внутреннее состояние с пропсом value
+	useEffect(() => {
+		setInputValue(value || '');
+	}, [value]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = e.target.value;
@@ -37,6 +42,7 @@ const Input = ({ value, placeholder, readOnly, onChange, labelAlign = 'left' }: 
 					placeholder={placeholder}
 					readOnly={readOnly}
 					onChange={handleChange}
+					onFocus={onFocus}
 				/>
 				{inputValue && !readOnly && (
 					<button className={styles.clearBtn} onClick={handleClear} type="button">

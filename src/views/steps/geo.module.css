@@ -16,6 +16,9 @@
 	align-items: center;
 	gap: 8px;
 }
+.inputRow > :last-child {
+	flex: 1;
+}
 
 .inputText {
 	width: 100px;

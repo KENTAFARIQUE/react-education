@@ -77,4 +77,9 @@
     
 }
 
-
+@media (max-width: 768px) {
+    .MainContainer {
+        padding-left: 32px;
+        margin-bottom: 64px;
+    }
+}
