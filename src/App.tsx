@@ -1,14 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SideBar from './components/sideBar/SideBar';
+import MainView from './views/mainView/MainView';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+    <BrowserRouter basename="react-education/">
+    <SideBar/>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<MainView/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
     </>
   )
 }
