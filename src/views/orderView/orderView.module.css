@@ -1,14 +1,14 @@
 @media (min-width: 768px) {
     .main {
         margin-left: 64px;
+        display: flex;
+        justify-content: center;
     }   
     .Header {
         margin-top: 0;
     }
     .Container {
 	    max-width: 90%;
-	    margin: 0 auto;
-	    width: 100%;
 	    padding: 0;
 	    box-sizing: border-box;
     }
