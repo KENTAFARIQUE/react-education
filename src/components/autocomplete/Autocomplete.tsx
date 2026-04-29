@@ -75,6 +75,7 @@ const Autocomplete = ({
 		<div className={styles.autocomplete} ref={wrapperRef}>
 			{React.isValidElement(children) 
 				? React.cloneElement(children as React.ReactElement<any>, {
+					...((children as React.ReactElement<any>).props || {}),
 					value: value,
 					onChange: handleInputChange,
 				})

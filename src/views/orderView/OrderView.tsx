@@ -1,5 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
-
+import { useOrderStore } from '../../store/orderStore'
 
 import Button from '../../components/ui/button/Button';
 import Header from '../../components/header/Header';
@@ -12,15 +11,11 @@ import SummaryBlock from '../steps/SummaryBlock';
 
 import styles from  './orderView.module.css'
 
-type Step = 'location' | 'model' | 'additional' | 'total';
-
 const OrderView = () => {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const currentStep = (searchParams.get('step') as Step) || 'location';
-
-	const setStep = (step: Step) => {
-		setSearchParams({ step });
-	};
+	const currentStep = useOrderStore((state) => state.currentStep);
+	const setStep = useOrderStore((state) => state.setStep);
+	const city = useOrderStore((state) => state.city);
+	const pickupPoint = useOrderStore((state) => state.pickupPoint);
 
 	const renderStep = () => {
 		switch (currentStep) {
@@ -68,6 +63,13 @@ const OrderView = () => {
 		}
 	};
 
+	const isButtonDisabled = () => {
+		if (currentStep === 'location') {
+			return !pickupPoint.trim();
+		}
+		return false;
+	};
+
     return (
     <div className={styles.main}>
         <div className={styles.Container}>
@@ -84,9 +86,9 @@ const OrderView = () => {
                 <div className={styles.OrderSummary}>
 					<div className={styles.orderTextContainer}>
 						<h5>Ваш заказ:</h5>
-						<span>Пункт выдачи</span>
-						<div className={styles.price}><h5>Цена:</h5><h4>от 8 000 до 12 000 ₽</h4></div>
-						<Button onClick={handleNextStep}>
+						<span>Город: {city || 'не выбран'}</span>
+						<span>Пункт выдачи: {pickupPoint || 'не выбран'}</span>
+						<Button onClick={handleNextStep} disabled={isButtonDisabled()}>
 								<span>{getButtonText()}</span>
 							</Button>
 					</div>
