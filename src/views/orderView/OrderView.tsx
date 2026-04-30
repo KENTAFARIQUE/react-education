@@ -1,5 +1,7 @@
-import { useOrderStore } from '../../store/orderStore'
-
+import { useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useOrderStore } from '../../store/orderStore';
+import type { Step } from '../../components/breadcrumbs/Breadcrumbs';
 import Button from '../../components/ui/button/Button';
 import Header from '../../components/header/Header';
 import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
@@ -12,10 +14,38 @@ import SummaryBlock from '../steps/SummaryBlock';
 import styles from  './orderView.module.css'
 
 const OrderView = () => {
+	const { step: urlStep } = useParams<{ step: string }>();
+	const navigate = useNavigate();
+	const initializedRef = useRef(false);
 	const currentStep = useOrderStore((state) => state.currentStep);
 	const setStep = useOrderStore((state) => state.setStep);
+	const isStepCompleted = useOrderStore((state) => state.isStepCompleted);
+	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
 	const city = useOrderStore((state) => state.city);
 	const pickupPoint = useOrderStore((state) => state.pickupPoint);
+
+	useEffect(() => {
+		if (!initializedRef.current) {
+			initializedRef.current = true;
+			if (urlStep && ['location', 'model', 'additional', 'total'].includes(urlStep)) {
+				const step = urlStep as Step;
+				if (canNavigateToStep(step)) {
+					setStep(step);
+				} else {
+					navigate('/order/location', { replace: true });
+				}
+			} else {
+				navigate('/order/location', { replace: true });
+			}
+		} else if (urlStep && ['location', 'model', 'additional', 'total'].includes(urlStep)) {
+			const step = urlStep as Step;
+			if (canNavigateToStep(step)) {
+				setStep(step);
+			} else {
+				navigate(`/order/${currentStep}`, { replace: true });
+			}
+		}
+	}, [urlStep, canNavigateToStep, setStep, navigate, currentStep]); // Убрал currentStep и setStep из зависимостей
 
 	const renderStep = () => {
 		switch (currentStep) {
@@ -33,18 +63,28 @@ const OrderView = () => {
 	};
 
 	const handleNextStep = () => {
+		if (!isStepCompleted(currentStep)) {
+			return;
+		}
+
 		switch (currentStep) {
 			case 'location':
-				setStep('model');
+				navigate('/order/model');
 				break;
 			case 'model':
-				setStep('additional');
+				navigate('/order/additional');
 				break;
 			case 'additional':
-				setStep('total');
+				navigate('/order/total');
 				break;
 			default:
 				break;
+		}
+	};
+
+	const handleBreadcrumbClick = (step: Step) => {
+		if (canNavigateToStep(step)) {
+			navigate(`/order/${step}`);
 		}
 	};
 
@@ -64,10 +104,7 @@ const OrderView = () => {
 	};
 
 	const isButtonDisabled = () => {
-		if (currentStep === 'location') {
-			return !pickupPoint.trim();
-		}
-		return false;
+		return !isStepCompleted(currentStep);
 	};
 
     return (
@@ -76,7 +113,7 @@ const OrderView = () => {
             <Header></Header>
             <hr />
             <div className={styles.breadcrumbs}>
-                <Breadcrumbs currentStep={currentStep} />
+                <Breadcrumbs currentStep={currentStep} onStepClick={handleBreadcrumbClick} />
             </div>
             <hr />
             <div className={styles.MainContainer}>
