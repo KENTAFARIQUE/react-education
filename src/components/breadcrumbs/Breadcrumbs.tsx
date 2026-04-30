@@ -19,7 +19,7 @@ const steps: { id: Step; label: string }[] = [
 
 const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 	const scrollRef = useRef<HTMLDivElement>(null);
-	const activeStepRef = useRef<HTMLDivElement>(null);
+	const activeStepRef = useRef<HTMLButtonElement | null>(null);
 	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
 	const isStepCompleted = useOrderStore((state) => state.isStepCompleted);
 
