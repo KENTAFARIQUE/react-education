@@ -1,44 +1,61 @@
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { YandexMap } from '../../components/map/YandexMap'
 import Input from '../../components/ui/input/Input';
 import Autocomplete from '../../components/autocomplete/Autocomplete';
 import { useOrderStore } from '../../store/orderStore';
 import styles from './geo.module.css';
+import { useRef, useEffect } from 'react';
+import type { Marker, YandexMapRef } from '../../components/map/yandex-maps.types';
 
 interface GeoBlockProps {
 	onSelectLocation?: (coordinates: [number, number]) => void;
 }
 
 const GeoBlock = ({ onSelectLocation }: GeoBlockProps) => {
+	const mapRef = useRef<YandexMapRef>(null);
 	const city = useOrderStore((state) => state.city);
 	const pickupPoint = useOrderStore((state) => state.pickupPoint);
 	const setCity = useOrderStore((state) => state.setCity);
 	const setPickupPoint = useOrderStore((state) => state.setPickupPoint);
-	const setPickupCoordinates = useOrderStore((state) => state.setPickupCoordinates);
+	const setLocationInfo = useOrderStore((state) => state.setLocationInfo);
+	const yandexApiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY ?? ''
 
 	const mapCenter: [number, number] = [54.317, 48.366];
 
+	const pickupPointsMap: Record<string, [number, number]> = {
+		'Ульяновск, ул. Ленина, 10': [54.315, 48.375],
+		'Ульяновск, пр-т Нариманова, 45': [54.320, 48.360],
+		'Ульяновск, ул. Гончарова, 22': [54.310, 48.365],
+		'Ульяновск, Московское шоссе, 8': [54.325, 48.370],
+		'Ульяновск, ул. Минаева, 3': [54.318, 48.372],
+		'Ульяновск, ул. Розы Люксембург, 56': [54.312, 48.358],
+		'Ульяновск, пр-т Созидателей, 15': [54.322, 48.368],
+	};
 
-	const pickupSuggestions: string[] = [
-		'Ульяновск, ул. Ленина, 10',
-		'Ульяновск, пр-т Нариманова, 45',
-		'Ульяновск, ул. Гончарова, 22',
-		'Ульяновск, Московское шоссе, 8',
-		'Ульяновск, ул. Минаева, 3',
-		'Ульяновск, ул. Розы Люксембург, 56',
-		'Ульяновск, пр-т Созидателей, 15',
-	];
+	const pickupSuggestions: string[] = Object.keys(pickupPointsMap);
+	const displayedMarkers: Marker[] = Object.entries(pickupPointsMap).map(([title, coords]) => ({
+		id: title,
+		coordinates: coords,
+		title,
+		description: title,
+	}));
 
-	const handleClick = (e: any) => {
-		const coords = e.get('coords');
-		setPickupCoordinates(coords);
+	const handleMarkerClick = (marker: Marker) => {
+		const pointTitle = marker.title || marker.id.toString();
+		setLocationInfo('Ульяновск', pointTitle, marker.coordinates);
 		if (onSelectLocation) {
-			onSelectLocation(coords);
+			onSelectLocation(marker.coordinates);
 		}
 	};
 
+	useEffect(() => {
+		if (pickupPoint && mapRef.current && pickupPointsMap[pickupPoint]) {
+			const coords = pickupPointsMap[pickupPoint];
+			mapRef.current.setCenter(coords, 14);
+		}
+	}, [pickupPoint, pickupPointsMap]);
+
 	return (
 		<div className={styles.container}>
-			<YMaps>
 				<div className={styles.inputContainer}>
 					<div className={styles.inputRow}>
 						<div className={`${styles.inputText} ${styles.right}`}>Город</div>
@@ -68,16 +85,21 @@ const GeoBlock = ({ onSelectLocation }: GeoBlockProps) => {
 				</div>
 
 				<span className={styles.inputText}>Выбрать на карте:</span>
-				<Map
-					defaultState={{ center: mapCenter, zoom: 12 }}
+				{yandexApiKey ? (
+					<YandexMap
+					ref={mapRef}
+					apiKey={yandexApiKey}
+					center={pickupPoint && pickupPointsMap[pickupPoint] ? pickupPointsMap[pickupPoint] : mapCenter}
+					zoom={pickupPoint ? 14 : 12}
+					markers={displayedMarkers}
+					onMarkerClick={handleMarkerClick}
 					className={styles.map}
-					width="100%"
-					height="400px"
-					onClick={handleClick}
-				>
-					<Placemark geometry={mapCenter} />
-				</Map>
-			</YMaps>
+				/>
+			) : (
+				<div className={styles.apiKeyWarning}>
+					Укажи VITE_YANDEX_MAPS_API_KEY в .env, чтобы увидеть демо-карту.
+				</div>
+			)}
 		</div>
 	);
 };

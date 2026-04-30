@@ -13,6 +13,7 @@ interface OrderStore {
   setCity: (city: string) => void
   setPickupPoint: (pickupPoint: string) => void
   setPickupCoordinates: (pickupCoordinates: [number, number]) => void
+  setLocationInfo: (city: string, pickupPoint: string, coordinates: [number, number]) => void
   setSelectedModel: (selectedModel: string | null) => void
   toggleAdditionalOption: (option: string) => void
   resetOrder: () => void
@@ -30,6 +31,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
   setCity: (city) => set({ city, pickupPoint: '', pickupCoordinates: null }),
   setPickupPoint: (pickupPoint) => set({ pickupPoint }),
   setPickupCoordinates: (pickupCoordinates) => set({ pickupCoordinates }),
+  setLocationInfo: (city, pickupPoint, coordinates) => set({ city, pickupPoint, pickupCoordinates: coordinates }),
   setSelectedModel: (selectedModel) => set({ selectedModel }),
   toggleAdditionalOption: (option) =>
     set((state) => ({
