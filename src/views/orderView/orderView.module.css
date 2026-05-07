@@ -1,0 +1,85 @@
+@media (min-width: 768px) {
+    .main {
+        margin-left: 64px;
+        display: flex;
+        justify-content: center;
+    }   
+    .Header {
+        margin-top: 0;
+    }
+    .Container {
+        min-width: 1000px;
+	    max-width: 100%;
+	    padding: 0;
+	    box-sizing: border-box;
+        overflow-x: hidden
+    }
+    .breadcrumbs {
+        margin-top: 8px;
+    }
+    hr {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-bottom: 0;
+        border: 1px solid #EEEEEE;
+    }
+    .MainContainer {
+        display: grid;
+        grid-template-columns: 1.5fr 0.5fr;  
+    }
+    .OrderSummary {
+        border-left: 2px solid #EEEEEE;
+        height: 100%;
+    }
+    .orderTextContainer {
+        display: flex;
+        padding: 32px 0 32px 32px;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 287px;
+    }
+
+    .orderTextContainer h5:first-child {
+        text-align: right;
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .orderTextContainer span {
+        text-align: right;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .price {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+    }
+
+    .price h5 {
+        margin: 0;
+    }
+
+    .price h4 {
+        margin: 0;
+        font-weight: 400;
+    }
+
+    .orderTextContainer button {
+        margin-top: 8px;
+        width: 100%;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .MainContainer {
+        padding-left: 32px;
+        margin-bottom: 64px;
+    }
+}

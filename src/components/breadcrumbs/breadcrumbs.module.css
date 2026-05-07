@@ -1,0 +1,75 @@
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.step {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex-shrink: 0;
+}
+
+.stepLabel {
+	font-size: 14px;
+	font-weight: 700;
+	color: #999;
+	transition: color 0.3s ease;
+	white-space: nowrap;
+}
+
+.stepLabel.activeLabel {
+	color: #0EC261;
+}
+
+.triangle {
+	width: 12px;
+	height: 12px;
+	fill: #999;
+	transition: fill 0.3s ease;
+}
+
+.step:has(.activeLabel) + .step .triangle {
+	fill: #0EC261;
+}
+
+.breadcrumbsWrapper {
+	position: relative;
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+}
+
+.breadcrumbsWrapper::-webkit-scrollbar {
+	display: none;
+}
+
+@media (min-width: 769px) {
+	.breadcrumbsWrapper {
+		overflow-x: visible;
+	}
+}
+
+@media (max-width: 768px) {
+	.breadcrumbs {
+		gap: 8px;
+		padding: 0 16px;
+		justify-content: space-between;
+	}
+
+	.step {
+		gap: 8px;
+	}
+
+	.stepLabel {
+		font-size: 11px;
+	}
+
+	.triangle {
+		width: 8px;
+		height: 8px;
+	}
+}

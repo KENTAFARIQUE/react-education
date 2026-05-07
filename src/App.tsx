@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SideBar from './components/sideBar/SideBar';
 import MainView from './views/mainView/MainView';
+import OrderView from './views/orderView/OrderView'
 import './App.css'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<MainView/>} />
+          <Route path="/order" element={<OrderView/>} />
         </Routes>
       </div>
     </BrowserRouter>

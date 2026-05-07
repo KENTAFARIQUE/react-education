@@ -20,7 +20,7 @@ const Button = ({ children, onClick, className, disabled = false,  variant = 'pr
             disabled={disabled}
             className={`${styles.button} ${styles[variant]} ${styles[width]} ${disabled ? styles.disabled : ''} ${className || ''}`}
         >
-            <span className={styles.content}>{children}</span>  
+            <div className={styles.content}>{children}</div>  
         </button> 
     )
 }

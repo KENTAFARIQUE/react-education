@@ -24,7 +24,7 @@ const SideBar = () => {
     <>
     <div className={`${styles.sidebar} ${isMenuOpen ? styles.menuOpen : ''}`}>
         <button onClick={toggleMenu}> {isMenuOpen ? <CloseIco className={styles.togglebtnClosed}/> : <BurgerIco className={styles.togglebtn}/>} </button>
-        {isMenuOpen ? null : <button className={styles.language}>Eng</button>}
+        {isMenuOpen && <button className={styles.language}>Eng</button>}
     </div>
     <HambMenu isOpen={isMenuOpen} onClose={closeMenu} onNavigate={navigateTo}/>
     </>

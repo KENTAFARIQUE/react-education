@@ -1,0 +1,27 @@
+.map {
+  width: 100%;
+  height: var(--yandex-map-height, 500px);
+}
+
+.stateBox {
+  width: 100%;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.loading {
+  color: var(--color-dark);
+  background: #f5f5f5;
+}
+
+.error {
+  color: #c1121f;
+  border: 1px solid #c1121f;
+  background: #fff7f8;
+}
