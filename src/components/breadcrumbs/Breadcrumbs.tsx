@@ -1,16 +1,14 @@
 import { useEffect, useRef } from 'react';
 import styles from './breadcrumbs.module.css';
 import Triangle from '../../assets/triangle.svg?react';
-import { useOrderStore } from '../../store/orderStore';
-
-export type Step = 'location' | 'model' | 'additional' | 'total';
+import { useOrderStore, type OrderStep } from '../../store/orderStore';
 
 interface BreadcrumbsProps {
-	currentStep: Step;
-	onStepClick?: (step: Step) => void;
+	currentStep: OrderStep;
+	onStepClick?: (step: OrderStep) => void;
 }
 
-const steps: { id: Step; label: string }[] = [
+const steps: { id: OrderStep; label: string }[] = [
 	{ id: 'location', label: 'Местоположение' },
 	{ id: 'model', label: 'Модель' },
 	{ id: 'additional', label: 'Дополнительно' },
@@ -23,13 +21,13 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
 	const isStepCompleted = useOrderStore((state) => state.isStepCompleted);
 
-	const getStepIndex = (step: Step) => {
+	const getStepIndex = (step: OrderStep) => {
 		return steps.findIndex(s => s.id === step);
 	};
 
 	const currentIndex = getStepIndex(currentStep);
 
-	const handleStepClick = (step: Step) => {
+	const handleStepClick = (step: OrderStep) => {
 		if (canNavigateToStep(step) && onStepClick) {
 			onStepClick(step);
 		}
@@ -55,8 +53,8 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 		<div className={styles.breadcrumbsWrapper}>
 			<div className={styles.breadcrumbs} ref={scrollRef}>
 				{steps.map((step, index) => {
-					const isClickable = canNavigateToStep(step);
-					const isCompleted = isStepCompleted(step);
+				const isClickable = canNavigateToStep(step.id);
+				const isCompleted = isStepCompleted(step.id);
 					const isCurrent = index === currentIndex;
 					const isPrevious = index < currentIndex;
 					const isDisabled = !isClickable && index > currentIndex;
