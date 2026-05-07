@@ -19,7 +19,6 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const activeStepRef = useRef<HTMLButtonElement | null>(null);
 	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
-	const isStepCompleted = useOrderStore((state) => state.isStepCompleted);
 
 	const getStepIndex = (step: OrderStep) => {
 		return steps.findIndex(s => s.id === step);
@@ -54,10 +53,9 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 			<div className={styles.breadcrumbs} ref={scrollRef}>
 				{steps.map((step, index) => {
 				const isClickable = canNavigateToStep(step.id);
-				const isCompleted = isStepCompleted(step.id);
-					const isCurrent = index === currentIndex;
-					const isPrevious = index < currentIndex;
-					const isDisabled = !isClickable && index > currentIndex;
+				const isCurrent = index === currentIndex;
+				const isPrevious = index < currentIndex;
+				const isDisabled = !isClickable && index > currentIndex;
 
 					return (
 						<div key={step.id} className={styles.step}>

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useOrderStore } from '../../store/orderStore';
-import type { Step } from '../../components/breadcrumbs/Breadcrumbs';
+import { useOrderStore, type OrderStep } from '../../store/orderStore';
 import Button from '../../components/ui/button/Button';
 import Header from '../../components/header/Header';
 import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
@@ -28,7 +27,7 @@ const OrderView = () => {
 		if (!initializedRef.current) {
 			initializedRef.current = true;
 			if (urlStep && ['location', 'model', 'additional', 'total'].includes(urlStep)) {
-				const step = urlStep as Step;
+				const step = urlStep as OrderStep;
 				if (canNavigateToStep(step)) {
 					setStep(step);
 				} else {
@@ -38,7 +37,7 @@ const OrderView = () => {
 				navigate('/order/location', { replace: true });
 			}
 		} else if (urlStep && ['location', 'model', 'additional', 'total'].includes(urlStep)) {
-			const step = urlStep as Step;
+			const step = urlStep as OrderStep;
 			if (canNavigateToStep(step)) {
 				setStep(step);
 			} else {
@@ -82,7 +81,7 @@ const OrderView = () => {
 		}
 	};
 
-	const handleBreadcrumbClick = (step: Step) => {
+	const handleBreadcrumbClick = (step: OrderStep) => {
 		if (canNavigateToStep(step)) {
 			navigate(`/order/${step}`);
 		}
