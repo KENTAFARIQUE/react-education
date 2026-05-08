@@ -122,7 +122,6 @@ const OrderView = () => {
                 <div className={styles.OrderSummary}>
 					<div className={styles.orderTextContainer}>
 						<h5>Ваш заказ:</h5>
-						<span>Город: {city || 'не выбран'}</span>
 						<span>Пункт выдачи: {pickupPoint || 'не выбран'}</span>
 						<Button onClick={handleNextStep} disabled={isButtonDisabled()}>
 								<span>{getButtonText()}</span>

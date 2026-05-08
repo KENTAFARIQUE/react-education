@@ -55,7 +55,7 @@ const GeoBlock = ({ onSelectLocation }: GeoBlockProps) => {
 		<div className={styles.container}>
 				<div className={styles.inputContainer}>
 					<div className={styles.inputRow}>
-						<div className={`${styles.inputText} ${styles.right}`}>Город</div>
+						<span className={`${styles.inputText} ${styles.right}`}>Город</span>
 						<Input
 							placeholder="Начните вводить город..."
 							value={city}
@@ -64,7 +64,7 @@ const GeoBlock = ({ onSelectLocation }: GeoBlockProps) => {
 					</div>
 
 					<div className={styles.inputRow}>
-			<div className={`${styles.inputText} ${styles.left}`}>Пункт выдачи</div>
+			<span className={`${styles.inputText} ${styles.left}`}>Пункт выдачи</span>
 			<Autocomplete
 				value={pickupPoint}
 				suggestions={pickupSuggestions}
