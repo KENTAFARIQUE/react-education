@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import styles from './model.module.css';
 import Radiobutton from '../../components/ui/radiobutton/Radiobutton';
+import CarCard from '../../components/carCard/carCard';
 import { useCars } from '../../hooks/useCars';
 
 const ModelBlock = () => {
 	const [selected, setSelected] = useState('all');
 	const { cars, loading, error } = useCars();
+	console.log(cars);
+
+	if (loading) return <div>Loading...</div>;
+
+	if (error) return <div>{error}</div>;
 
 	if (!cars.length) return <div>No data found</div>;
 	return (
@@ -39,8 +45,17 @@ const ModelBlock = () => {
 				</ul>
 			</li>
 			
-			<div className={styles.modelsGrid}></div>
-			{cars.map(item => (<div>машина</div>))};
+			<div className={styles.modelsGrid}>
+			{cars.map(item => (
+				<CarCard
+				key={item.id}
+				name={item.name}
+				priceMin={item.priceMin}
+				priceMax={item.priceMax}
+				thumbnail={item.thumbnail}
+				/>
+			))}
+			</div>
 		</div>
 	);
 };

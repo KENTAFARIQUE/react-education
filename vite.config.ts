@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), svgr()],
   server: {
 		watch: {
-			usePolling: false,  // Включаем polling для Windows
+			usePolling: true,  // Включаем polling для Windows
 		},
 		hmr: {
 			overlay: false,

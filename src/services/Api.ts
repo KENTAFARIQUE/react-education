@@ -1,48 +1,41 @@
 const API_BASE_URL = import.meta.env.VITE_CARAPI_BASE_URL;
 
+if (!API_BASE_URL) {
+  throw new Error('VITE_CARAPI_BASE_URL is not defined');
+}
 
-async function fetchApi(endpoint: any) {
-  try {
-    const response = await fetch(API_BASE_URL + endpoint)
+async function fetchApi(endpoint: string) {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`);
 
-    if (!response.ok) {
-      let errorText;
-      try {
-        errorText = await response.text();
-      } catch (e) {
-        errorText = 'Не удалось прочитать тело ошибки';
-      }
-      
-      let errorMessage = `HTTP ${response.status}`;
-      
-      if (response.status === 400) {
-        errorMessage = 'Неверный запрос. Проверьте параметры.';
-      } else if (response.status === 403) {
-        errorMessage = 'Доступ запрещен. Проверьте API ключ.';
-      } else if (response.status === 404) {
-        errorMessage = 'Ресурс не найден. Проверьте endpoint.';
-      } else if (response.status === 429) {
-        errorMessage = 'Слишком много запросов. Подождите минуту.';
-      } else if (response.status >= 500) {
-        errorMessage = 'Ошибка сервера. Попробуйте позже.';
-      }
-      throw new Error(errorMessage);
-    }
+  if (!response.ok) {
+    const errorMessages: Record<number, string> = {
+      400: 'Неверный запрос. Проверьте параметры.',
+      403: 'Доступ запрещен. Проверьте API ключ.',
+      404: 'Ресурс не найден. Проверьте endpoint.',
+      429: 'Слишком много запросов. Подождите минуту.',
+    };
 
+    const errorMessage =
+      errorMessages[response.status] ||
+      (response.status >= 500
+        ? 'Ошибка сервера. Попробуйте позже.'
+        : `HTTP ${response.status}`);
 
-    const data = await response.json();
-    return data;
-
-  } catch (error) {
-    throw error;
+    throw new Error(errorMessage);
   }
+
+  return response.json();
 }
 
 export const carApi = {
-    get: (resource: any, id = null, relation = null) => 
-        fetchApi(
-        `/${resource}${id ? `/${id}` : ''}${relation ? `/${relation}` : ''}`
-        ),
+  get: (
+    resource: string,
+    id?: string | number,
+    relation?: string
+  ) =>
+    fetchApi(
+      `/${resource}${id ? `/${id}` : ''}${relation ? `/${relation}` : ''}`
+    ),
 
-    getAllCars: () => carApi.get('car')
+  getAllCars: () => carApi.get('car'),
 };
