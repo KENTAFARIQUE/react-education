@@ -12,11 +12,8 @@ interface GeoBlockProps {
 
 const GeoBlock = ({ onSelectLocation }: GeoBlockProps) => {
 	const mapRef = useRef<YandexMapRef>(null);
-	const city = useOrderStore((state) => state.city);
-	const pickupPoint = useOrderStore((state) => state.pickupPoint);
-	const setCity = useOrderStore((state) => state.setCity);
-	const setPickupPoint = useOrderStore((state) => state.setPickupPoint);
-	const setLocationInfo = useOrderStore((state) => state.setLocationInfo);
+	const state = useOrderStore(state => state);
+	const { city, pickupPoint, setCity, setPickupPoint, setLocationInfo} = state;
 	const yandexApiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY ?? ''
 
 	const mapCenter: [number, number] = [54.317, 48.366];

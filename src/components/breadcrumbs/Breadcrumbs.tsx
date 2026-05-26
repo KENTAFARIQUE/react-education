@@ -1,29 +1,36 @@
 import { useEffect, useRef } from 'react';
 import styles from './breadcrumbs.module.css';
 import Triangle from '../../assets/triangle.svg?react';
-
-export type Step = 'location' | 'model' | 'additional' | 'total';
+import { useOrderStore, type OrderStep } from '../../store/orderStore';
 
 interface BreadcrumbsProps {
-	currentStep: Step;
+	currentStep: OrderStep;
+	onStepClick?: (step: OrderStep) => void;
 }
 
-const steps: { id: Step; label: string }[] = [
+const steps: { id: OrderStep; label: string }[] = [
 	{ id: 'location', label: 'Местоположение' },
 	{ id: 'model', label: 'Модель' },
 	{ id: 'additional', label: 'Дополнительно' },
 	{ id: 'total', label: 'Итого' },
 ];
 
-const Breadcrumbs = ({ currentStep }: BreadcrumbsProps) => {
+const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 	const scrollRef = useRef<HTMLDivElement>(null);
-	const activeStepRef = useRef<HTMLDivElement>(null);
+	const activeStepRef = useRef<HTMLButtonElement | null>(null);
+	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
 
-	const getStepIndex = (step: Step) => {
+	const getStepIndex = (step: OrderStep) => {
 		return steps.findIndex(s => s.id === step);
 	};
 
 	const currentIndex = getStepIndex(currentStep);
+
+	const handleStepClick = (step: OrderStep) => {
+		if (canNavigateToStep(step) && onStepClick) {
+			onStepClick(step);
+		}
+	};
 
 	useEffect(() => {
 		if (window.innerWidth <= 768 && scrollRef.current && activeStepRef.current) {
@@ -44,20 +51,30 @@ const Breadcrumbs = ({ currentStep }: BreadcrumbsProps) => {
 	return (
 		<div className={styles.breadcrumbsWrapper}>
 			<div className={styles.breadcrumbs} ref={scrollRef}>
-				{steps.map((step, index) => (
-					<div
-						key={step.id}
-						className={styles.step}
-						ref={index === currentIndex ? activeStepRef : null}
-					>
-						<span className={`${styles.stepLabel} ${index <= currentIndex ? styles.activeLabel : ''}`}>
-							{step.label}
-						</span>
-						{index < steps.length - 1 && (
-							<Triangle className={styles.triangle} />
-						)}
-					</div>
-				))}
+				{steps.map((step, index) => {
+				const isClickable = canNavigateToStep(step.id);
+				const isCurrent = index === currentIndex;
+				const isPrevious = index < currentIndex;
+				const isDisabled = !isClickable && index > currentIndex;
+
+					return (
+						<div key={step.id} className={styles.step}>
+							<button
+								type="button"
+								className={`${styles.stepButton} ${isCurrent ? styles.activeLabel : ''} ${isPrevious ? styles.previousLabel : ''} ${isDisabled ? styles.disabledLabel : ''}`}
+								ref={index === currentIndex ? activeStepRef : null}
+								onClick={() => handleStepClick(step.id)}
+								disabled={!isClickable}
+								aria-current={isCurrent ? 'step' : undefined}
+							>
+								{step.label}
+							</button>
+							{index < steps.length - 1 && (
+								<Triangle className={`${styles.triangle} ${index < currentIndex ? styles.activeTriangle : ''}`} />
+							)}
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);

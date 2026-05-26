@@ -13,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainView/>} />
           <Route path="/order" element={<OrderView/>} />
+          <Route path="/order/:step" element={<OrderView/>} />
         </Routes>
       </div>
     </BrowserRouter>
