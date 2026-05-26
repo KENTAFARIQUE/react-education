@@ -9,12 +9,6 @@ const ModelBlock = () => {
 	const [selected, setSelected] = useState('all');
 	const { cars, loading, error } = useCars();
 	const { setSelectedModel, selectedModel } = useOrderStore();
-	console.log(cars);
-
-	const handleCarSelect = (carId: string, carName: string) => {
-		setSelectedModel(carId); 
-		console.log('Selected car:', carName);
-	};
 
 	if (loading) return <div>Loading...</div>;
 
@@ -60,6 +54,8 @@ const ModelBlock = () => {
 				priceMin={item.priceMin}
 				priceMax={item.priceMax}
 				thumbnail={item.thumbnail}
+				onClick={() => setSelectedModel({ name: item.name, priceMin: item.priceMin, priceMax: item.priceMax })}
+				isSelected={selectedModel?.name === item.name}
 				/>
 			))}
 			</div>

@@ -20,8 +20,8 @@ const OrderView = () => {
 	const setStep = useOrderStore((state) => state.setStep);
 	const isStepCompleted = useOrderStore((state) => state.isStepCompleted);
 	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
-	const city = useOrderStore((state) => state.city);
 	const pickupPoint = useOrderStore((state) => state.pickupPoint);
+	const selectedModel = useOrderStore((state) => state.selectedModel);
 
 	useEffect(() => {
 		if (!initializedRef.current) {
@@ -122,7 +122,20 @@ const OrderView = () => {
                 <div className={styles.OrderSummary}>
 					<div className={styles.orderTextContainer}>
 						<h5>Ваш заказ:</h5>
-						<span>Пункт выдачи: {pickupPoint || 'не выбран'}</span>
+
+						<div className={styles.orderRow}>
+							<span className={styles.label}>Пункт выдачи:</span>
+							<span className={styles.dots}>....................................................................................................</span>
+							<span className={styles.infoText}>{pickupPoint || 'не выбран'}</span>
+						</div>
+
+						<div className={styles.orderRow}>
+							<span className={styles.label}>Модель:</span>
+							<span className={styles.dots}>....................................................................................................</span>
+							<span className={styles.infoText}>{selectedModel?.name || 'не выбрана'}</span>
+						</div>
+
+						{selectedModel && <h4>Цена: от {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMin)} до {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMax)} ₽</h4>}
 						<Button onClick={handleNextStep} disabled={isButtonDisabled()}>
 								<span>{getButtonText()}</span>
 							</Button>

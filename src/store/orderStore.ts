@@ -9,6 +9,12 @@ export const ORDER_STEPS = [
 
 export type OrderStep = typeof ORDER_STEPS[number]
 
+export interface SelectedCarInfo {
+  name: string;
+  priceMin: number;
+  priceMax: number;
+}
+
 interface OrderStore {
   currentStep: OrderStep
 
@@ -16,7 +22,7 @@ interface OrderStore {
   pickupPoint: string
   pickupCoordinates: [number, number] | null
 
-  selectedModel: string | null
+  selectedModel: SelectedCarInfo | null
   additionalOptions: string[]
 
   setStep: (step: OrderStep) => void
@@ -34,7 +40,7 @@ interface OrderStore {
   ) => void
 
   setSelectedModel: (
-    selectedModel: string | null
+    selectedModel: SelectedCarInfo | null
   ) => void
 
   toggleAdditionalOption: (option: string) => void
