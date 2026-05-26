@@ -44,7 +44,7 @@ const OrderView = () => {
 				navigate(`/order/${currentStep}`, { replace: true });
 			}
 		}
-	}, [urlStep, canNavigateToStep, setStep, navigate, currentStep]); // Убрал currentStep и setStep из зависимостей
+	}, [urlStep, canNavigateToStep, setStep, navigate, currentStep]); 
 
 	const renderStep = () => {
 		switch (currentStep) {

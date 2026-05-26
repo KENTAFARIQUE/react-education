@@ -3,11 +3,18 @@ import styles from './model.module.css';
 import Radiobutton from '../../components/ui/radiobutton/Radiobutton';
 import CarCard from '../../components/carCard/carCard';
 import { useCars } from '../../hooks/useCars';
+import { useOrderStore } from '../../store/orderStore'; 
 
 const ModelBlock = () => {
 	const [selected, setSelected] = useState('all');
 	const { cars, loading, error } = useCars();
+	const { setSelectedModel, selectedModel } = useOrderStore();
 	console.log(cars);
+
+	const handleCarSelect = (carId: string, carName: string) => {
+		setSelectedModel(carId); 
+		console.log('Selected car:', carName);
+	};
 
 	if (loading) return <div>Loading...</div>;
 
