@@ -36,7 +36,11 @@ const CarCard: React.FC<CarCardProps> = ({
         <h3 className={styles.title}>{name}</h3>
         <div className={styles.price}>
           <span className={styles.priceValue}>
-            {formatPrice(priceMin)} - {formatPrice(priceMax)} ₽
+            {priceMin === 0 && priceMax === 0 ? (
+              'Цена не указана'
+            ) : (
+              `${formatPrice(priceMin)} - ${formatPrice(priceMax)} ₽`
+            )}
           </span>
         </div>
       </div>

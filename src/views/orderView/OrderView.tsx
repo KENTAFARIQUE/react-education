@@ -115,10 +115,10 @@ const OrderView = () => {
                 <Breadcrumbs currentStep={currentStep} onStepClick={handleBreadcrumbClick} />
             </div>
             <hr />
-            <div className={styles.MainContainer}>
-                <div className={styles.orderStep}>
-						{renderStep()}
-					</div>
+                <div className={styles.MainContainer}>
+                <div className={styles.orderStep} key={currentStep}>
+					{renderStep()}
+				</div>
                 <div className={styles.OrderSummary}>
 					<div className={styles.orderTextContainer}>
 						<h5>Ваш заказ:</h5>

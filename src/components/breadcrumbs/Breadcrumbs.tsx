@@ -58,7 +58,7 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 				const isDisabled = !isClickable && index > currentIndex;
 
 					return (
-						<div key={step.id} className={styles.step}>
+						<div key={step.id} className={styles.step} style={{ '--i': index } as React.CSSProperties}>
 							<button
 								type="button"
 								className={`${styles.stepButton} ${isCurrent ? styles.activeLabel : ''} ${isPrevious ? styles.previousLabel : ''} ${isDisabled ? styles.disabledLabel : ''}`}

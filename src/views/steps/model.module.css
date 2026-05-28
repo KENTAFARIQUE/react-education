@@ -1,6 +1,18 @@
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 .choiceSortContainer {
     display: flex;
     gap: 32px;
+    animation: fadeInUp 0.4s ease;
 }
 ul {
     display: flex;
@@ -13,6 +25,13 @@ ul {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 80%;
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.cardWrapper {
+    opacity: 0;
+    animation: fadeInUp 0.4s ease forwards;
+    animation-delay: calc(var(--i) * 0.08s);
 }
 
 
