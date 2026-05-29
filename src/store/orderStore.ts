@@ -25,6 +25,11 @@ interface OrderStore {
   selectedModel: SelectedCarInfo | null
   additionalOptions: string[]
 
+  color: string
+  rentalStart: string
+  rentalEnd: string
+  rate: string
+
   setStep: (step: OrderStep) => void
 
   setCity: (city: string) => void
@@ -42,6 +47,11 @@ interface OrderStore {
   setSelectedModel: (
     selectedModel: SelectedCarInfo | null
   ) => void
+
+  setColor: (color: string) => void
+  setRentalStart: (rentalStart: string) => void
+  setRentalEnd: (rentalEnd: string) => void
+  setRate: (rate: string) => void
 
   toggleAdditionalOption: (option: string) => void
 
@@ -68,11 +78,16 @@ export const useOrderStore = create<OrderStore>((set, get) => {
     model: (state) =>
       state.selectedModel !== null,
 
-    additional: () => true,
+    additional: (state) =>
+      state.color !== '' &&
+      state.rentalStart !== '' &&
+      state.rentalEnd !== '' &&
+      state.rate !== '',
 
     total: (state) =>
       stepValidators.location(state) &&
-      stepValidators.model(state),
+      stepValidators.model(state) &&
+      stepValidators.additional(state),
   }
 
   return {
@@ -84,6 +99,11 @@ export const useOrderStore = create<OrderStore>((set, get) => {
 
     selectedModel: null,
     additionalOptions: [],
+
+    color: '',
+    rentalStart: '',
+    rentalEnd: '',
+    rate: '',
 
     setStep: (currentStep) =>
       set({ currentStep }),
@@ -127,6 +147,22 @@ export const useOrderStore = create<OrderStore>((set, get) => {
       get().resetSubsequentSteps('model')
     },
 
+    setColor: (color) => {
+      set({ color })
+    },
+
+    setRentalStart: (rentalStart) => {
+      set({ rentalStart })
+    },
+
+    setRentalEnd: (rentalEnd) => {
+      set({ rentalEnd })
+    },
+
+    setRate: (rate) => {
+      set({ rate })
+    },
+
     toggleAdditionalOption: (option) => {
       set((state) => ({
         additionalOptions:
@@ -148,6 +184,11 @@ export const useOrderStore = create<OrderStore>((set, get) => {
 
         selectedModel: null,
         additionalOptions: [],
+
+        color: '',
+        rentalStart: '',
+        rentalEnd: '',
+        rate: '',
       }),
 
     isStepCompleted: (step) => {
@@ -180,6 +221,10 @@ export const useOrderStore = create<OrderStore>((set, get) => {
         set({
           selectedModel: null,
           additionalOptions: [],
+          color: '',
+          rentalStart: '',
+          rentalEnd: '',
+          rate: '',
         })
 
         return
@@ -188,6 +233,10 @@ export const useOrderStore = create<OrderStore>((set, get) => {
       if (fromIndex <= getStepIndex('model')) {
         set({
           additionalOptions: [],
+          color: '',
+          rentalStart: '',
+          rentalEnd: '',
+          rate: '',
         })
       }
     },
