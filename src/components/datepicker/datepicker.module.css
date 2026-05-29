@@ -1,8 +1,12 @@
+.fieldWrapper {
+    position: relative;
+    flex: 1;
+}
+
 .wrapper {
     display: flex;
     align-items: center;
     position: relative;
-    flex: 1;
     cursor: text;
 }
 
@@ -17,4 +21,15 @@
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
+}
+
+.errorMessage {
+    position: absolute;
+    top: 100%;
+    left: 8px;
+    font-size: 11px;
+    color: #e74c3c;
+    font-weight: 300;
+    white-space: nowrap;
+    margin-top: 2px;
 }

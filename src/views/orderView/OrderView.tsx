@@ -129,13 +129,15 @@ const OrderView = () => {
 							<span className={styles.infoText}>{pickupPoint || 'не выбран'}</span>
 						</div>
 
-						<div className={styles.orderRow}>
-							<span className={styles.label}>Модель:</span>
-							<span className={styles.dots}>....................................................................................................</span>
-							<span className={styles.infoText}>{selectedModel?.name || 'не выбрана'}</span>
-						</div>
+						{currentStep !== 'location' && (
+							<div className={styles.orderRow}>
+								<span className={styles.label}>Модель:</span>
+								<span className={styles.dots}>....................................................................................................</span>
+								<span className={styles.infoText}>{selectedModel?.name || 'не выбрана'}</span>
+							</div>
+						)}
 
-						{selectedModel && <h4>Цена: от {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMin)} до {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMax)} ₽</h4>}
+						{currentStep !== 'location' && selectedModel && <h4>Цена: от {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMin)} до {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMax)} ₽</h4>}
 						<Button onClick={handleNextStep} disabled={isButtonDisabled()}>
 								<span>{getButtonText()}</span>
 							</Button>

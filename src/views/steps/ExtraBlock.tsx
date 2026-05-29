@@ -18,40 +18,37 @@ const ExtraBlock = () => {
 					</ul>
 				</li>
 			</div>
+							<span>Дата аренды</span>
 			<div className={styles.dateContainer}>
-				<span>Дата аренды</span>
-				<div className={styles.inputContainer}>
-					<span className={`${styles.inputText} ${styles.left}`}>C</span>
+
+				<div className={styles.inputRow}>
+					<span className={styles.inputText}>C</span>
 					<DatePicker>
 						<Input />
 					</DatePicker>
 				</div>
-				<div className={styles.inputContainer}>
-					<span className={`${styles.inputText} ${styles.left}`}>По</span>
+				<div className={styles.inputRow}>
+					<span className={styles.inputText}>По</span>
 					<DatePicker>
 						<Input />
 					</DatePicker>
 				</div>
 			</div>
+							<span>Тариф</span>
 			<div className={styles.rateContainer}>
-				<span>Тариф</span>
-				<li className={styles.choiceSortContainer}>
-					<ul>
+
 						<Radiobutton
 							label='Поминутно, 7₽/мин'
-							name='color'
+name='rate'
+					/>
+					<Radiobutton
+						label='На сутки, 1999 ₽/сутки'
+						name='rate'
 						/>
-					</ul>
-					<ul>
-						<Radiobutton
-							label='На сутки, 1999 ₽/сутки'
-							name='color'
-						/>
-					</ul>
-				</li>
 			</div>
+							<span>Доп услуги</span>
 			<div className={styles.extraContainer}>
-				<span>Доп услуги</span>
+
 				<Checkbox label='Полный бак, 500р'
 							name='fuel'/>
 				<Checkbox label='Детское кресло, 200р'

@@ -32,8 +32,10 @@ function filterInput(raw: string): string {
 const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProps) => {
     const hiddenRef = useRef<HTMLInputElement>(null);
     const [internalValue, setInternalValue] = useState('');
+    const [touched, setTouched] = useState(false);
 
     const displayValue = externalValue !== undefined ? externalValue : internalValue;
+    const showError = touched && displayValue.length > 0 && !DISPLAY_RE.test(displayValue);
 
     const syncHiddenInput = useCallback((display: string) => {
         const iso = toIso(display);
@@ -46,6 +48,9 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
         const filtered = filterInput(raw);
         syncHiddenInput(filtered);
         setInternalValue(filtered);
+        if (filtered.length === 0) {
+            setTouched(false);
+        }
         if (onChange) {
             onChange(filtered);
         }
@@ -58,6 +63,7 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
 
         const display = toDisplay(iso);
         setInternalValue(display);
+        setTouched(true);
         if (onChange) {
             onChange(display);
         }
@@ -68,24 +74,41 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
         hiddenRef.current?.showPicker();
     }, [displayValue]);
 
+    const handleBlur = useCallback(() => {
+        if (displayValue.length > 0) {
+            setTouched(true);
+        }
+    }, [displayValue]);
+
     const childProps = useMemo(() => ({
         value: displayValue,
         onChange: handleChildChange,
     }), [displayValue, handleChildChange]);
 
     return (
-        <div className={styles.wrapper} onClick={handleWrapperClick}>
-            {React.isValidElement(children)
-                /* eslint-disable-next-line react-hooks/refs */
-                ? React.cloneElement(children as React.ReactElement<{ value?: string; onChange?: (value: string) => void }>, childProps)
-                : children
-            }
-            <input
-                ref={hiddenRef}
-                type="datetime-local"
-                className={styles.hiddenInput}
-                onChange={handleNativeChange}
-            />
+        <div className={styles.fieldWrapper}>
+            <div
+                className={styles.wrapper}
+                onClick={handleWrapperClick}
+                onBlur={handleBlur}
+            >
+                {React.isValidElement(children)
+                    /* eslint-disable-next-line react-hooks/refs */
+                    ? React.cloneElement(children as React.ReactElement<{ value?: string; onChange?: (value: string) => void }>, childProps)
+                    : children
+                }
+                <input
+                    ref={hiddenRef}
+                    type="datetime-local"
+                    className={styles.hiddenInput}
+                    onChange={handleNativeChange}
+                />
+            </div>
+            {showError && (
+                <span className={styles.errorMessage}>
+                    Неверный формат. Используйте ДД.ММ.ГГГГ ЧЧ:ММ
+                </span>
+            )}
         </div>
     );
 };
