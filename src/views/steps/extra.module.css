@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+    width: 40%;
+}
+
+.container span {
+    width: 100px;
+	font-weight: 300;
+	font-size: 14px;
+	color: #333;
+	flex-shrink: 0;
+}
+
+.extraContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

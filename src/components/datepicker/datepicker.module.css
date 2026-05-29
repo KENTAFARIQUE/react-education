@@ -1,0 +1,20 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    cursor: text;
+}
+
+.wrapper > :first-child {
+    flex: 1;
+}
+
+.hiddenInput {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
