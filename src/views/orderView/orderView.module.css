@@ -1,3 +1,14 @@
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 @media (min-width: 768px) {
     .main {
         margin-left: 64px;
@@ -9,7 +20,7 @@
         margin-top: 0;
     }
     .Container {
-	    max-width: 100%;
+	    max-width: 1440px;
 	    padding: 0 64px 0 64px;
         flex: 1;
 	    box-sizing: border-box;
@@ -29,11 +40,16 @@
     }
     .MainContainer {
         display: grid;
-        grid-template-columns: 1.7fr 0.3fr;  
+        grid-template-columns: 1fr minmax(220px, 360px);
+        animation: fadeInUp 0.5s ease;
     }
+    .orderStep {
+        overflow: hidden;
+    }
+
     .OrderSummary {
         border-left: 2px solid #EEEEEE;
-        height: 100%;
+        animation: fadeInUp 0.5s ease;
     }
     .orderTextContainer {
         display: flex;
@@ -93,8 +109,8 @@
         font-size: 14px;
         line-height: 16px;
         letter-spacing: 0%;
-        text-align: left;
-        max-width: 60%;
+        text-align: right;
+        max-width: 30%;
         overflow-wrap: break-word;
         word-break: break-word;
     }
@@ -112,7 +128,15 @@
 
 @media (max-width: 768px) {
     .MainContainer {
+        display: flex;
+        flex-direction: column;
         padding-left: 32px;
         margin-bottom: 64px;
+    }
+    .OrderSummary {
+        border-left: none;
+        border-top: 2px solid #EEEEEE;
+        padding-top: 16px;
+        margin-top: 16px;
     }
 }
