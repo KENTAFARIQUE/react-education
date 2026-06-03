@@ -6,6 +6,11 @@
     width: 40%;
 }
 
+.choiceSortContainer {
+    display: flex;
+    gap: 16px;
+}
+
 .container span {
 	font-weight: 300;
 	font-size: 14px;
@@ -14,15 +19,16 @@
 }
 
 .rateContainer {
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
 }
 
 .extraContainer {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .dateContainer {

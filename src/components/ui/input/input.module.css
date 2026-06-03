@@ -30,6 +30,11 @@
 	cursor: default;
 }
 
+.inputFieldError {
+	border-bottom: 1px solid #d32f2f;
+	color: #d32f2f;
+}
+
 .clearBtn {
 	position: absolute;
 	right: 0;

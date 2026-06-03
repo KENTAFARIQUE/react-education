@@ -1,10 +1,11 @@
-import React, { useState, useRef, useCallback, useMemo, type ReactNode } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect, type ReactNode } from 'react';
 import styles from './datepicker.module.css';
 
 interface DatePickerProps {
     children: ReactNode;
     value?: string;
     onChange?: (value: string) => void;
+    minDate?: string;
 }
 
 const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
@@ -29,13 +30,28 @@ function filterInput(raw: string): string {
     return raw.replace(/[^\d:.\s]/g, '').slice(0, 16);
 }
 
-const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProps) => {
+function parseDisplayDate(s: string): Date | null {
+    const m = s.match(DISPLAY_RE);
+    if (!m) return null;
+    const [, d, month, y, h, min] = m;
+    return new Date(+y, +month - 1, +d, +h, +min);
+}
+
+const DatePicker = ({ children, value: externalValue, onChange, minDate }: DatePickerProps) => {
     const hiddenRef = useRef<HTMLInputElement>(null);
+    const clearingRef = useRef(false);
     const [internalValue, setInternalValue] = useState('');
     const [touched, setTouched] = useState(false);
 
-    const displayValue = externalValue !== undefined ? externalValue : internalValue;
-    const showError = touched && displayValue.length > 0 && !DISPLAY_RE.test(displayValue);
+    const displayValue = internalValue || (externalValue || '');
+
+    const formatError = touched && displayValue.length > 0 && !DISPLAY_RE.test(displayValue);
+
+    const parsedDate = parseDisplayDate(displayValue);
+    const parsedMinDate = minDate ? parseDisplayDate(minDate) : null;
+    const minDateError = !formatError && parsedDate && parsedMinDate && parsedDate < parsedMinDate;
+
+    const showError = !!(formatError || minDateError);
 
     const syncHiddenInput = useCallback((display: string) => {
         const iso = toIso(display);
@@ -44,17 +60,35 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
         }
     }, []);
 
+    useEffect(() => {
+        if (externalValue !== undefined && !clearingRef.current) {
+            setInternalValue(externalValue);
+        }
+        clearingRef.current = false;
+    }, [externalValue]);
+
     const handleChildChange = useCallback((raw: string) => {
         const filtered = filterInput(raw);
         syncHiddenInput(filtered);
         setInternalValue(filtered);
-        if (filtered.length === 0) {
-            setTouched(false);
-        }
+        setTouched(filtered.length > 0);
+
+        const parsed = parseDisplayDate(filtered);
+        const parsedMin = minDate ? parseDisplayDate(minDate) : null;
+        const isValidFormat = DISPLAY_RE.test(filtered);
+        const isAfterMin = !parsedMin || (parsed && parsed >= parsedMin);
+
         if (onChange) {
-            onChange(filtered);
+            if (filtered.length === 0) {
+                onChange('');
+            } else if (isValidFormat && isAfterMin) {
+                onChange(filtered);
+            } else {
+                clearingRef.current = true;
+                onChange('');
+            }
         }
-    }, [onChange, syncHiddenInput]);
+    }, [onChange, syncHiddenInput, minDate]);
 
     const handleNativeChange = useCallback(() => {
         if (!hiddenRef.current) return;
@@ -68,6 +102,8 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
             onChange(display);
         }
     }, [onChange]);
+
+    const isoMin = minDate ? toIso(minDate) : undefined;
 
     const handleWrapperClick = useCallback(() => {
         if (displayValue) return;
@@ -83,7 +119,8 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
     const childProps = useMemo(() => ({
         value: displayValue,
         onChange: handleChildChange,
-    }), [displayValue, handleChildChange]);
+        hasError: showError,
+    }), [displayValue, handleChildChange, showError]);
 
     return (
         <div className={styles.fieldWrapper}>
@@ -93,8 +130,7 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
                 onBlur={handleBlur}
             >
                 {React.isValidElement(children)
-                    /* eslint-disable-next-line react-hooks/refs */
-                    ? React.cloneElement(children as React.ReactElement<{ value?: string; onChange?: (value: string) => void }>, childProps)
+                    ? React.cloneElement(children as React.ReactElement<{ value?: string; onChange?: (value: string) => void; hasError?: boolean }>, childProps)
                     : children
                 }
                 <input
@@ -102,11 +138,14 @@ const DatePicker = ({ children, value: externalValue, onChange }: DatePickerProp
                     type="datetime-local"
                     className={styles.hiddenInput}
                     onChange={handleNativeChange}
+                    {...(isoMin ? { min: isoMin } : {})}
                 />
             </div>
             {showError && (
                 <span className={styles.errorMessage}>
-                    Неверный формат. Используйте ДД.ММ.ГГГГ ЧЧ:ММ
+                    {formatError
+                        ? 'Неверный формат. Используйте ДД.ММ.ГГГГ ЧЧ:ММ'
+                        : 'Дата не может быть раньше доступной'}
                 </span>
             )}
         </div>

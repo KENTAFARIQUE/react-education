@@ -24,10 +24,10 @@
     overflow: hidden;
 }
 
-.errorMessage {
+.fieldWrapper .errorMessage {
     position: absolute;
     top: 100%;
-    left: 8px;
+    left: -8px;
     font-size: 11px;
     color: #e74c3c;
     font-weight: 300;
