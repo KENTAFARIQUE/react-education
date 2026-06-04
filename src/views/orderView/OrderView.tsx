@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useOrderStore, type OrderStep } from "../../store/orderStore";
 import Button from "../../components/ui/button/Button";
 import Header from "../../components/header/Header";
 import Breadcrumbs from "../../components/breadcrumbs/Breadcrumbs";
+import ConfirmPopup from "../../components/confirmPopup/ConfirmPopup";
 
 import { ADDITIONAL_OPTIONS, RATES } from "../../constants/orderOptions";
 import GeoBlock from "../steps/GeoBlock";
@@ -86,6 +87,7 @@ const OrderView = () => {
   const rentalEnd = useOrderStore((state) => state.rentalEnd);
   const rate = useOrderStore((state) => state.rate);
   const additionalOptions = useOrderStore((state) => state.additionalOptions);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (!initializedRef.current) {
@@ -150,9 +152,18 @@ const OrderView = () => {
       case "additional":
         navigate("/order/total");
         break;
-      default:
+      case "total":
+        setIsConfirmOpen(true);
         break;
     }
+  };
+
+  const handleConfirm = () => {
+    setIsConfirmOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsConfirmOpen(false);
   };
 
   const handleBreadcrumbClick = (step: OrderStep) => {
@@ -294,6 +305,9 @@ const OrderView = () => {
           </div>
         </div>
       </div>
+      {isConfirmOpen && (
+        <ConfirmPopup onConfirm={handleConfirm} onCancel={handleCancel} />
+      )}
     </div>
   );
 };
