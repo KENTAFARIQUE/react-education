@@ -1,3 +1,9 @@
+.radioWrapper {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
 .radiobutton {
     appearance: none; 
     width: 12px;

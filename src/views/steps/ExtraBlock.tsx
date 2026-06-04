@@ -43,7 +43,7 @@ const ExtraBlock = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.colorContainer}>
+            <div className={styles.colorContainer} style={{ '--i': 0 } as React.CSSProperties}>
                 <span>Цвет</span>
                 <li className={styles.choiceSortContainer}>
                     <ul>
@@ -67,7 +67,7 @@ const ExtraBlock = () => {
                 </li>
             </div>
 
-            <div className={styles.dateContainer}>
+            <div className={`${styles.dateContainer} ${styles.section}`} style={{ '--i': 1 } as React.CSSProperties}>
                             <span>Дата аренды</span>
                 <div className={styles.inputRow}>
                     <span className={styles.inputText}>C</span>
@@ -83,7 +83,7 @@ const ExtraBlock = () => {
                 </div>
             </div>
 
-            <div className={styles.rateContainer}>
+            <div className={`${styles.rateContainer} ${styles.section}`} style={{ '--i': 2 } as React.CSSProperties}>
                             <span>Тариф</span>
                 <Radiobutton
                     label='Поминутно, 7₽/мин'
@@ -99,7 +99,7 @@ const ExtraBlock = () => {
                 />
             </div>
 
-            <div className={styles.extraContainer}>
+            <div className={`${styles.extraContainer} ${styles.section}`} style={{ '--i': 3 } as React.CSSProperties}>
                 <span>Доп услуги</span>
                 {ADDITIONAL_OPTIONS.map((option) => (
                     <Checkbox

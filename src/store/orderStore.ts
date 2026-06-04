@@ -14,6 +14,7 @@ export interface SelectedCarInfo {
   priceMin: number;
   priceMax: number;
   colors: string[];
+  thumbnail: { path: string };
 }
 
 interface OrderStore {

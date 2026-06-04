@@ -65,7 +65,7 @@ const ModelBlock = () => {
 				thumbnail={item.thumbnail}
 				onClick={() => {
 					const carColors = Array.isArray(item.colors) ? item.colors : (item.colors ? [item.colors] : []);
-					setSelectedModel({ name: item.name, priceMin: item.priceMin, priceMax: item.priceMax, colors: carColors });
+					setSelectedModel({ name: item.name, priceMin: item.priceMin, priceMax: item.priceMax, colors: carColors, thumbnail: item.thumbnail });
 				}}
 				isSelected={selectedModel?.name === item.name}
 				/>

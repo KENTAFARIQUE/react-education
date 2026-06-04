@@ -116,6 +116,10 @@ const OrderView = () => {
     }
   }, [urlStep, canNavigateToStep, setStep, navigate, currentStep]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentStep]);
+
   const renderStep = () => {
     switch (currentStep) {
       case "location":
@@ -166,7 +170,7 @@ const OrderView = () => {
       case "additional":
         return "Итого";
       case "total":
-        return "Забронировать";
+        return "Заказать";
       default:
         return "Далее";
     }
