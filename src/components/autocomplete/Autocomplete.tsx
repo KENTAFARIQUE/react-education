@@ -44,25 +44,26 @@ const Autocomplete = ({
 		if (onChange) {
 			onChange(newValue);
 		}
-		
-		if (newValue.length > 0) {
-			const filtered = suggestions.filter(item =>
+
+		const filtered = newValue.length > 0
+			? suggestions.filter(item =>
 				item.toLowerCase().includes(newValue.toLowerCase())
-			);
-			setFilteredSuggestions(filtered);
-			setIsOpen(true);
-		} else {
-			setFilteredSuggestions([]);
-			setIsOpen(false);
-		}
+			)
+			: suggestions;
+
+		setFilteredSuggestions(filtered);
+		setIsOpen(true);
+	};
+
+	const handleFocus = () => {
+		setFilteredSuggestions(suggestions);
+		setIsOpen(true);
 	};
 
 	const handleSelect = (selectedValue: string) => {
-		// Закрываем список
 		setIsOpen(false);
 		setFilteredSuggestions([]);
-		
-		// Обновляем значение через onChange
+
 		if (onChange) {
 			onChange(selectedValue);
 		}
@@ -73,15 +74,16 @@ const Autocomplete = ({
 
 	return (
 		<div className={styles.autocomplete} ref={wrapperRef}>
-			{React.isValidElement(children) 
+			{React.isValidElement(children)
 				? React.cloneElement(children as React.ReactElement<any>, {
 					...((children as React.ReactElement<any>).props || {}),
 					value: value,
 					onChange: handleInputChange,
+					onFocus: handleFocus,
 				})
 				: children
 			}
-			
+
 			{isOpen && filteredSuggestions.length > 0 && (
 				<ul className={styles.suggestions}>
 					{filteredSuggestions.map((suggestion, index) => (
