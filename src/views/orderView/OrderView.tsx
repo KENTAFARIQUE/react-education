@@ -22,6 +22,11 @@ const OrderView = () => {
 	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
 	const pickupPoint = useOrderStore((state) => state.pickupPoint);
 	const selectedModel = useOrderStore((state) => state.selectedModel);
+	const color = useOrderStore((state) => state.color);
+	const rentalStart = useOrderStore((state) => state.rentalStart);
+	const rentalEnd = useOrderStore((state) => state.rentalEnd);
+	const rate = useOrderStore((state) => state.rate);
+	const additionalOptions = useOrderStore((state) => state.additionalOptions);
 
 	useEffect(() => {
 		if (!initializedRef.current) {
@@ -129,13 +134,47 @@ const OrderView = () => {
 							<span className={styles.infoText}>{pickupPoint || 'не выбран'}</span>
 						</div>
 
-						<div className={styles.orderRow}>
-							<span className={styles.label}>Модель:</span>
-							<span className={styles.dots}>....................................................................................................</span>
-							<span className={styles.infoText}>{selectedModel?.name || 'не выбрана'}</span>
-						</div>
+						{currentStep !== 'location' && (
+							<div className={styles.orderRow}>
+								<span className={styles.label}>Модель:</span>
+								<span className={styles.dots}>....................................................................................................</span>
+								<span className={styles.infoText}>{selectedModel?.name || 'не выбрана'}</span>
+							</div>
+						)}
 
-						{selectedModel && <h4>Цена: от {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMin)} до {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMax)} ₽</h4>}
+						{currentStep !== 'location' && color && (
+							<div className={styles.orderRow}>
+								<span className={styles.label}>Цвет:</span>
+								<span className={styles.dots}>....................................................................................................</span>
+								<span className={styles.infoText}>{color}</span>
+							</div>
+						)}
+
+						{currentStep !== 'location' && rentalStart && rentalEnd && (
+							<div className={styles.orderRow}>
+								<span className={styles.label}>Дата аренды:</span>
+								<span className={styles.dots}>....................................................................................................</span>
+								<span className={styles.infoText}>{rentalStart} — {rentalEnd}</span>
+							</div>
+						)}
+
+						{currentStep !== 'location' && rate && (
+							<div className={styles.orderRow}>
+								<span className={styles.label}>Тариф:</span>
+								<span className={styles.dots}>....................................................................................................</span>
+								<span className={styles.infoText}>{rate}</span>
+							</div>
+						)}
+
+						{currentStep !== 'location' && additionalOptions.length > 0 && (
+							<div className={styles.orderRow}>
+								<span className={styles.label}>Доп услуги:</span>
+								<span className={styles.dots}>....................................................................................................</span>
+								<span className={styles.infoText}>{additionalOptions.join(', ')}</span>
+							</div>
+						)}
+
+						{currentStep !== 'location' && selectedModel && <h4>Цена: от {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMin)} до {new Intl.NumberFormat('ru-RU').format(selectedModel.priceMax)} ₽</h4>}
 						<Button onClick={handleNextStep} disabled={isButtonDisabled()}>
 								<span>{getButtonText()}</span>
 							</Button>
