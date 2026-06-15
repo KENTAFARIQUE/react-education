@@ -7,6 +7,19 @@ export type Car = {
     priceMax: number;
     priceMin: number;
     thumbnail: { path: string; };
+    description: string;
+    number: string | null;
+    tank: string | null;
+    colors: string | string[];
+    createdAt: string;
+    updatedAt: string;
+    categoryId: {
+        id: number;
+        name: string;
+        description: string;
+        createdAt: string;
+        updatedAt: string;
+    };
 };
 
 type CarsResponse = {

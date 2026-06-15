@@ -7,9 +7,10 @@ interface InputProps {
 	readOnly?: boolean;
 	onChange?: (value: string) => void;
 	onFocus?: () => void;
+	hasError?: boolean;
 }
 
-const Input = ({ value, placeholder, readOnly, onChange, onFocus }: InputProps) => {
+const Input = ({ value, placeholder, readOnly, onChange, onFocus, hasError }: InputProps) => {
 	const [inputValue, setInputValue] = useState(value || '');
 
 	// Синхронизируем внутреннее состояние с пропсом value
@@ -37,7 +38,7 @@ const Input = ({ value, placeholder, readOnly, onChange, onFocus }: InputProps) 
 			<div className={styles.inputWrapper}>
 				<input
 					type="text"
-					className={styles.inputField}
+					className={`${styles.inputField} ${hasError ? styles.inputFieldError : ''}`}
 					value={inputValue}
 					placeholder={placeholder}
 					readOnly={readOnly}

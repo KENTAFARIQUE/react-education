@@ -1,15 +1,11 @@
+import { useEffect } from 'react'
 import styles from './extra.module.css'
 import Radiobutton from '../../components/ui/radiobutton/Radiobutton';
 import Checkbox from '../../components/ui/checkbox/Checkbox';
 import { Input } from '../../components/ui';
 import DatePicker from '../../components/datepicker/DatePicker';
 import { useOrderStore } from '../../store/orderStore';
-
-const ADDITIONAL_OPTIONS = [
-    { label: 'Полный бак, 500р', name: 'fuel' },
-    { label: 'Детское кресло, 200р', name: 'chair' },
-    { label: 'Правый руль, 1600р', name: 'right' },
-];
+import { ADDITIONAL_OPTIONS } from '../../constants/orderOptions';
 
 const ExtraBlock = () => {
     const color = useOrderStore((state) => state.color);
@@ -22,10 +18,32 @@ const ExtraBlock = () => {
     const setRate = useOrderStore((state) => state.setRate);
     const additionalOptions = useOrderStore((state) => state.additionalOptions);
     const toggleAdditionalOption = useOrderStore((state) => state.toggleAdditionalOption);
+    const selectedModel = useOrderStore((state) => state.selectedModel);
+    const carColors = selectedModel?.colors ?? [];
+
+    const now = new Date();
+    const todayStr = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    const endMinDate = rentalStart || todayStr;
+
+    useEffect(() => {
+        if (rentalStart && rentalEnd) {
+            const DISPLAY_RE = /^(\d{2})\.(\d{2})\.(\d{4})\s(\d{2}):(\d{2})$/;
+            const sm = rentalStart.match(DISPLAY_RE);
+            const em = rentalEnd.match(DISPLAY_RE);
+            if (sm && em) {
+                const startDate = new Date(+sm[3], +sm[2] - 1, +sm[1], +sm[4], +sm[5]);
+                const endDate = new Date(+em[3], +em[2] - 1, +em[1], +em[4], +em[5]);
+                if (endDate < startDate) {
+                    setRentalEnd('');
+                }
+            }
+        }
+    }, [rentalStart, rentalEnd, setRentalEnd]);
 
     return (
         <div className={styles.container}>
-            <div className={styles.colorContainer}>
+            <div className={styles.colorContainer} style={{ '--i': 0 } as React.CSSProperties}>
                 <span>Цвет</span>
                 <li className={styles.choiceSortContainer}>
                     <ul>
@@ -36,25 +54,37 @@ const ExtraBlock = () => {
                             onClick={() => setColor('Любой')}
                         />
                     </ul>
+                    {carColors.map((c) => (
+                        <ul key={c}>
+                            <Radiobutton
+                                label={c}
+                                name='color'
+                                checked={color === c}
+                                onClick={() => setColor(c)}
+                            />
+                        </ul>
+                    ))}
                 </li>
             </div>
-            <span>Дата аренды</span>
-            <div className={styles.dateContainer}>
+
+            <div className={`${styles.dateContainer} ${styles.section}`} style={{ '--i': 1 } as React.CSSProperties}>
+                            <span>Дата аренды</span>
                 <div className={styles.inputRow}>
                     <span className={styles.inputText}>C</span>
-                    <DatePicker value={rentalStart} onChange={setRentalStart}>
+                    <DatePicker value={rentalStart} onChange={setRentalStart} minDate={todayStr}>
                         <Input placeholder='Введите дату и время' />
                     </DatePicker>
                 </div>
                 <div className={styles.inputRow}>
                     <span className={styles.inputText}>По</span>
-                    <DatePicker value={rentalEnd} onChange={setRentalEnd}>
+                    <DatePicker value={rentalEnd} onChange={setRentalEnd} minDate={endMinDate}>
                         <Input placeholder='Введите дату и время' />
                     </DatePicker>
                 </div>
             </div>
-            <span>Тариф</span>
-            <div className={styles.rateContainer}>
+
+            <div className={`${styles.rateContainer} ${styles.section}`} style={{ '--i': 2 } as React.CSSProperties}>
+                            <span>Тариф</span>
                 <Radiobutton
                     label='Поминутно, 7₽/мин'
                     name='rate'
@@ -68,8 +98,9 @@ const ExtraBlock = () => {
                     onClick={() => setRate('На сутки')}
                 />
             </div>
-            <span>Доп услуги</span>
-            <div className={styles.extraContainer}>
+
+            <div className={`${styles.extraContainer} ${styles.section}`} style={{ '--i': 3 } as React.CSSProperties}>
+                <span>Доп услуги</span>
                 {ADDITIONAL_OPTIONS.map((option) => (
                     <Checkbox
                         key={option.name}

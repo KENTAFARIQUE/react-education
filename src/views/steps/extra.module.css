@@ -1,9 +1,31 @@
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 .container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-top: 32px;
     width: 40%;
+}
+
+.section {
+    opacity: 0;
+    animation: fadeInUp 0.4s ease forwards;
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+.choiceSortContainer {
+    display: flex;
+    gap: 16px;
 }
 
 .container span {
@@ -14,15 +36,16 @@
 }
 
 .rateContainer {
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
 }
 
 .extraContainer {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .dateContainer {
@@ -49,4 +72,25 @@
     color: #333;
     flex-shrink: 0;
     text-align: right;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+    
+    ul {
+        margin: 0;
+    }
+
+    .choiceSortContainer {
+        flex-wrap: wrap;
+    }
+    .choiceSortContainer .li{
+        margin-top: 16px;
+    }
+
+    .inputRow {
+        height: auto;
+    }
 }

@@ -17,7 +17,8 @@ const steps: { id: OrderStep; label: string }[] = [
 
 const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 	const scrollRef = useRef<HTMLDivElement>(null);
-	const activeStepRef = useRef<HTMLButtonElement | null>(null);
+	const activeStepRef = useRef<HTMLDivElement | null>(null);
+	const initialScrollDoneRef = useRef(false);
 	const canNavigateToStep = useOrderStore((state) => state.canNavigateToStep);
 
 	const getStepIndex = (step: OrderStep) => {
@@ -41,16 +42,24 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 			const containerWidth = scrollContainer.clientWidth;
 			const elementWidth = activeElement.clientWidth;
 
-			scrollContainer.scrollTo({
-				left: offsetLeft - (containerWidth / 2) + (elementWidth / 2),
-				behavior: 'smooth',
-			});
+			const scrollLeft = offsetLeft - (containerWidth / 2) + (elementWidth / 2);
+			const maxScroll = scrollContainer.scrollWidth - containerWidth;
+
+			if (!initialScrollDoneRef.current) {
+				scrollContainer.scrollLeft = Math.max(0, Math.min(scrollLeft, maxScroll));
+				initialScrollDoneRef.current = true;
+			} else {
+				scrollContainer.scrollTo({
+					left: Math.max(0, Math.min(scrollLeft, maxScroll)),
+					behavior: 'smooth',
+				});
+			}
 		}
 	}, [currentStep]);
 
 	return (
-		<div className={styles.breadcrumbsWrapper}>
-			<div className={styles.breadcrumbs} ref={scrollRef}>
+		<div className={styles.breadcrumbsWrapper} ref={scrollRef}>
+			<div className={styles.breadcrumbs}>
 				{steps.map((step, index) => {
 				const isClickable = canNavigateToStep(step.id);
 				const isCurrent = index === currentIndex;
@@ -58,11 +67,15 @@ const Breadcrumbs = ({ currentStep, onStepClick }: BreadcrumbsProps) => {
 				const isDisabled = !isClickable && index > currentIndex;
 
 					return (
-						<div key={step.id} className={styles.step} style={{ '--i': index } as React.CSSProperties}>
+						<div
+							key={step.id}
+							className={styles.step}
+							style={{ '--i': index } as React.CSSProperties}
+							ref={index === currentIndex ? activeStepRef : null}
+						>
 							<button
 								type="button"
 								className={`${styles.stepButton} ${isCurrent ? styles.activeLabel : ''} ${isPrevious ? styles.previousLabel : ''} ${isDisabled ? styles.disabledLabel : ''}`}
-								ref={index === currentIndex ? activeStepRef : null}
 								onClick={() => handleStepClick(step.id)}
 								disabled={!isClickable}
 								aria-current={isCurrent ? 'step' : undefined}

@@ -13,6 +13,8 @@ export interface SelectedCarInfo {
   name: string;
   priceMin: number;
   priceMax: number;
+  colors: string[];
+  thumbnail: { path: string };
 }
 
 interface OrderStore {
@@ -78,11 +80,18 @@ export const useOrderStore = create<OrderStore>((set, get) => {
     model: (state) =>
       state.selectedModel !== null,
 
-    additional: (state) =>
-      state.color !== '' &&
-      state.rentalStart !== '' &&
-      state.rentalEnd !== '' &&
-      state.rate !== '',
+    additional: (state) => {
+      if (state.color === '' || state.rentalStart === '' || state.rentalEnd === '' || state.rate === '') {
+        return false
+      }
+      const DISPLAY_RE = /^(\d{2})\.(\d{2})\.(\d{4})\s(\d{2}):(\d{2})$/
+      const start = state.rentalStart.match(DISPLAY_RE)
+      const end = state.rentalEnd.match(DISPLAY_RE)
+      if (!start || !end) return false
+      const startDate = new Date(+start[3], +start[2] - 1, +start[1], +start[4], +start[5])
+      const endDate = new Date(+end[3], +end[2] - 1, +end[1], +end[4], +end[5])
+      return endDate >= startDate
+    },
 
     total: (state) =>
       stepValidators.location(state) &&

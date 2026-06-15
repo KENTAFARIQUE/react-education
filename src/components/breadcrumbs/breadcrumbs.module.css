@@ -94,10 +94,27 @@
 }
 
 @media (max-width: 768px) {
+	.breadcrumbsWrapper {
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 20%,
+			black 80%,
+			transparent 100%
+		);
+		mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 20%,
+			black 80%,
+			transparent 100%
+		);
+	}
+
 	.breadcrumbs {
-		gap: 8px;
-		padding: 0 16px;
-		justify-content: space-between;
+		gap: 24px;
+		padding: 0 50vw;
+		margin-right: 100vw;
 	}
 
 	.step {
