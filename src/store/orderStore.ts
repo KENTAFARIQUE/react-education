@@ -10,6 +10,7 @@ export const ORDER_STEPS = [
 export type OrderStep = typeof ORDER_STEPS[number]
 
 export interface SelectedCarInfo {
+  id: number;
   name: string;
   priceMin: number;
   priceMax: number;
@@ -21,7 +22,9 @@ interface OrderStore {
   currentStep: OrderStep
 
   city: string
+  cityId: number | null
   pickupPoint: string
+  pointId: number | null
   pickupCoordinates: [number, number] | null
 
   selectedModel: SelectedCarInfo | null
@@ -34,15 +37,17 @@ interface OrderStore {
 
   setStep: (step: OrderStep) => void
 
-  setCity: (city: string) => void
-  setPickupPoint: (pickupPoint: string) => void
+  setCity: (city: string, cityId?: number) => void
+  setPickupPoint: (pickupPoint: string, pointId?: number) => void
   setPickupCoordinates: (
     pickupCoordinates: [number, number]
   ) => void
 
   setLocationInfo: (
     city: string,
+    cityId: number,
     pickupPoint: string,
+    pointId: number,
     coordinates: [number, number]
   ) => void
 
@@ -103,7 +108,9 @@ export const useOrderStore = create<OrderStore>((set, get) => {
     currentStep: 'location',
 
     city: 'Ульяновск',
+    cityId: null,
     pickupPoint: '',
+    pointId: null,
     pickupCoordinates: null,
 
     selectedModel: null,
@@ -117,18 +124,20 @@ export const useOrderStore = create<OrderStore>((set, get) => {
     setStep: (currentStep) =>
       set({ currentStep }),
 
-    setCity: (city) => {
+    setCity: (city, cityId) => {
       set({
         city,
+        cityId: cityId ?? null,
         pickupPoint: '',
+        pointId: null,
         pickupCoordinates: null,
       })
 
       get().resetSubsequentSteps('location')
     },
 
-    setPickupPoint: (pickupPoint) => {
-      set({ pickupPoint })
+    setPickupPoint: (pickupPoint, pointId) => {
+      set({ pickupPoint, pointId: pointId ?? null })
 
       get().resetSubsequentSteps('location')
     },
@@ -138,12 +147,16 @@ export const useOrderStore = create<OrderStore>((set, get) => {
 
     setLocationInfo: (
       city,
+      cityId,
       pickupPoint,
+      pointId,
       coordinates
     ) => {
       set({
         city,
+        cityId,
         pickupPoint,
+        pointId,
         pickupCoordinates: coordinates,
       })
 
@@ -188,7 +201,9 @@ export const useOrderStore = create<OrderStore>((set, get) => {
         currentStep: 'location',
 
         city: 'Ульяновск',
+        cityId: null,
         pickupPoint: '',
+        pointId: null,
         pickupCoordinates: null,
 
         selectedModel: null,

@@ -4,8 +4,15 @@ if (!API_BASE_URL) {
   throw new Error('VITE_CARAPI_BASE_URL is not defined');
 }
 
-async function fetchApi(endpoint: string) {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
+async function fetchApi(endpoint: string, options?: RequestInit) {
+  const response = await fetch(
+    `${API_BASE_URL}${endpoint}`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      ...options,
+    }
+  );
 
   if (!response.ok) {
     const errorMessages: Record<number, string> = {
@@ -27,6 +34,22 @@ async function fetchApi(endpoint: string) {
   return response.json();
 }
 
+export interface OrderAttrs {
+  id: number;
+  orderStatus_id: number;
+  city_id: number;
+  point_id: number;
+  car_id: number;
+  rate_id: number;
+  color: string;
+  dateFrom: number;
+  dateTo: number;
+  price: number;
+  isFullTank: boolean;
+  isNeedChildChair: boolean;
+  isRightWheel: boolean;
+}
+
 export const carApi = {
   get: (
     resource: string,
@@ -38,4 +61,14 @@ export const carApi = {
     ),
 
   getAllCars: () => carApi.get('car'),
+
+  getAllCities: () => carApi.get('city'),
+
+  getAllPoints: () => carApi.get('point'),
+
+  createOrder: (order: OrderAttrs) =>
+    fetchApi('/order', {
+      method: 'POST',
+      body: JSON.stringify(order),
+    }),
 };

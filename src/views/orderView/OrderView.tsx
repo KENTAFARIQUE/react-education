@@ -7,6 +7,7 @@ import Breadcrumbs from "../../components/breadcrumbs/Breadcrumbs";
 import ConfirmPopup from "../../components/confirmPopup/ConfirmPopup";
 
 import { ADDITIONAL_OPTIONS, RATES } from "../../constants/orderOptions";
+import { carApi, type OrderAttrs } from "../../services/Api";
 import GeoBlock from "../steps/GeoBlock";
 import ModelBlock from "../steps/ModelBlock";
 import ExtraBlock from "../steps/ExtraBlock";
@@ -87,7 +88,10 @@ const OrderView = () => {
   const rentalEnd = useOrderStore((state) => state.rentalEnd);
   const rate = useOrderStore((state) => state.rate);
   const additionalOptions = useOrderStore((state) => state.additionalOptions);
+  const cityId = useOrderStore((state) => state.cityId);
+  const pointId = useOrderStore((state) => state.pointId);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!initializedRef.current) {
@@ -158,8 +162,63 @@ const OrderView = () => {
     }
   };
 
-  const handleConfirm = () => {
-    setIsConfirmOpen(false);
+  const handleConfirm = async () => {
+    if (
+      cityId === null ||
+      pointId === null ||
+      !selectedModel ||
+      !rentalStart ||
+      !rentalEnd ||
+      !rate
+    ) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const startDate = parseDisplayDate(rentalStart);
+    const endDate = parseDisplayDate(rentalEnd);
+    if (!startDate || !endDate) {
+      setIsSubmitting(false);
+      setIsConfirmOpen(false);
+      return;
+    }
+
+    const price = calcTotalPrice(
+      selectedModel.priceMin,
+      rentalStart,
+      rentalEnd,
+      rate,
+      additionalOptions,
+    );
+
+    const rateConfig = RATES.find((r) => r.name === rate);
+
+    const order: OrderAttrs = {
+      id: 0,
+      orderStatus_id: 1,
+      city_id: cityId,
+      point_id: pointId,
+      car_id: selectedModel.id,
+      rate_id: rateConfig?.rateId ?? 0,
+      color,
+      dateFrom: startDate.getTime(),
+      dateTo: endDate.getTime(),
+      price: price ?? 0,
+      isFullTank: additionalOptions.includes('fuel'),
+      isNeedChildChair: additionalOptions.includes('chair'),
+      isRightWheel: additionalOptions.includes('right'),
+    };
+
+    try {
+      const result = await carApi.createOrder(order);
+      console.log('Order created:', result);
+    } catch (err: any) {
+      console.error('Order creation failed:', err.message || err);
+    } finally {
+      setIsSubmitting(false);
+      setIsConfirmOpen(false);
+    }
   };
 
   const handleCancel = () => {
@@ -306,7 +365,7 @@ const OrderView = () => {
         </div>
       </div>
       {isConfirmOpen && (
-        <ConfirmPopup onConfirm={handleConfirm} onCancel={handleCancel} />
+        <ConfirmPopup onConfirm={handleConfirm} onCancel={handleCancel} disabled={isSubmitting} />
       )}
     </div>
   );

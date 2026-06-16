@@ -5,6 +5,6 @@ export const ADDITIONAL_OPTIONS = [
 ] as const
 
 export const RATES = [
-  { name: 'Поминутно', label: 'Поминутно, 7₽/мин', unitPrice: 7, unit: 'minute' as const },
-  { name: 'На сутки', label: 'На сутки, 1999 ₽/сутки', unitPrice: 1999, unit: 'day' as const },
+  { rateId: 1, name: 'Поминутно', label: 'Поминутно, 7₽/мин', unitPrice: 7, unit: 'minute' as const },
+  { rateId: 2, name: 'На сутки', label: 'На сутки, 1999 ₽/сутки', unitPrice: 1999, unit: 'day' as const },
 ] as const
