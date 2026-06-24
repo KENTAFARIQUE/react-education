@@ -133,6 +133,7 @@ h1 {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .bottom_container button {

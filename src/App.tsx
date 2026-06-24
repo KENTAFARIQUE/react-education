@@ -19,6 +19,7 @@ function App() {
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<AdminView />} />
                     <Route path="login" element={<AuthView />} />
+                    <Route path="register" element={<AuthView />} />
                 </Route>
             </Routes>
         </BrowserRouter>

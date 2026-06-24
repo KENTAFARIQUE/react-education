@@ -1,13 +1,10 @@
 import { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import styles from "./auth.module.css"
 import { validateEmail, validatePassword, sanitizeEmail, INPUT_MAX_LENGTH } from "./validation";
 import { EyeOpen, EyeClosed } from "./icons";
 
-interface LoginFormProps {
-    onSwitch: () => void;
-}
-
-const LoginForm = ({ onSwitch }: LoginFormProps) => {
+const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -76,7 +73,7 @@ const LoginForm = ({ onSwitch }: LoginFormProps) => {
             </div>
             <div className={styles.bottom_container}>
                 <a>Запросить доступ</a>
-                <a onClick={onSwitch}>Регистрация</a>
+                <Link to="/admin/register">Регистрация</Link>
                 <button onClick={handleSubmit}>Войти</button>
             </div>
         </div>
