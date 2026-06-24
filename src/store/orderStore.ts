@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 export const ORDER_STEPS = [
   'location',
@@ -16,6 +17,27 @@ export interface SelectedCarInfo {
   priceMax: number;
   colors: string[];
   thumbnail: { path: string };
+}
+
+export interface SavedOrder {
+  id: number;
+  carName: string;
+  cityName: string;
+  pointName: string;
+  rateName: string;
+  orderStatus_id: number;
+  city_id: number;
+  point_id: number;
+  car_id: number;
+  rate_id: number;
+  color: string;
+  dateFrom: number;
+  dateTo: number;
+  price: number;
+  isFullTank: boolean;
+  isNeedChildChair: boolean;
+  isRightWheel: boolean;
+  createdAt: string;
 }
 
 interface OrderStore {
@@ -64,13 +86,19 @@ interface OrderStore {
 
   resetOrder: () => void
 
+  savedOrders: SavedOrder[]
+  saveOrder: (order: Omit<SavedOrder, 'id' | 'createdAt'>) => number
+  cancelOrder: (id: number) => void
+
   isStepCompleted: (step: OrderStep) => boolean
   canNavigateToStep: (step: OrderStep) => boolean
 
   resetSubsequentSteps: (fromStep: OrderStep) => void
 }
 
-export const useOrderStore = create<OrderStore>((set, get) => {
+export const useOrderStore = create<OrderStore>()(
+  persist(
+    (set, get) => {
   const getStepIndex = (step: OrderStep) =>
     ORDER_STEPS.indexOf(step)
 
@@ -120,6 +148,8 @@ export const useOrderStore = create<OrderStore>((set, get) => {
     rentalStart: '',
     rentalEnd: '',
     rate: '',
+
+    savedOrders: [],
 
     setStep: (currentStep) =>
       set({ currentStep }),
@@ -215,6 +245,26 @@ export const useOrderStore = create<OrderStore>((set, get) => {
         rate: '',
       }),
 
+    saveOrder: (order) => {
+      const { savedOrders } = get()
+      const nextId = savedOrders.length === 0
+        ? 1
+        : Math.max(...savedOrders.map((o) => o.id)) + 1
+      const saved: SavedOrder = {
+        ...order,
+        id: nextId,
+        createdAt: new Date().toISOString(),
+      }
+      set({ savedOrders: [...savedOrders, saved] })
+      return saved.id
+    },
+
+    cancelOrder: (id) => {
+      set((state) => ({
+        savedOrders: state.savedOrders.filter((o) => o.id !== id),
+      }))
+    },
+
     isStepCompleted: (step) => {
       return stepValidators[step](get())
     },
@@ -265,4 +315,10 @@ export const useOrderStore = create<OrderStore>((set, get) => {
       }
     },
   }
-})
+},
+    {
+      name: 'react_education_orders',
+      partialize: (state) => ({ savedOrders: state.savedOrders }),
+    }
+  )
+)
