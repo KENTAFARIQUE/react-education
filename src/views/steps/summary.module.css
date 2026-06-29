@@ -31,6 +31,16 @@
   min-width: 200px;
 }
 
+.confirmed {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #000;
+  margin: 0 0 8px 0;
+}
+
 .title {
   font-weight: 400;
   font-size: 18px;
