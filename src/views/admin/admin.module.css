@@ -42,6 +42,16 @@ header .searchField {
     cursor: pointer;
 }
 
+.searchInput {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    flex: 1;
+}
+
 header .profileField {
     font-family: Helvetica;
     font-weight: 400;
@@ -54,6 +64,43 @@ header .profileField {
     gap: 8px;
     padding: 26.5px;
     cursor: pointer;
+}
+
+.profileWrapper {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.profileDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border: 1px solid #D7DAE3;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0px 4px 12px 0px #5A616930;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.dropdownItem {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    font-family: Helvetica;
+    font-size: 14px;
+    color: #3D5170;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.dropdownItem:hover {
+    background: #F5F6F8;
 }
 
 .avatar {
@@ -73,6 +120,8 @@ header .profileField {
 
 .pageContainer {
     flex: 1;
+    padding: 28px;
+    overflow-y: auto;
 }
 
 .mainSection footer {
@@ -152,7 +201,18 @@ header .profileField {
     background-color: #F0F1F4;
 }
 
+.btnActive {
+    background-color: #E8EBF0;
+    border-left: 3px solid #007BFF;
+    padding-left: 20px;
+}
+
+.btnActive .btnIco path {
+    fill: #007BFF !important;
+}
+
 .btnIco {
     width: 16px;
     height: 16px;
 }
+

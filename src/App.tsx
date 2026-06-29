@@ -4,6 +4,7 @@ import AdminLayout from './layouts/AdminLayout';
 import MainView from './views/mainView/MainView';
 import OrderView from './views/orderView/OrderView';
 import AdminView from './views/admin/AdminView';
+import OrderListView from './views/admin/OrderListView';
 import AuthView from './views/admin/forms/AuthView';
 
 function App() {
@@ -17,7 +18,10 @@ function App() {
                     <Route path="/order/:step" element={<OrderView />} />
                 </Route>
                 <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<AdminView />} />
+                    <Route element={<AdminView />}>
+                        <Route index element={<span>Содержимое</span>} />
+                        <Route path="orders" element={<OrderListView />} />
+                    </Route>
                     <Route path="login" element={<AuthView />} />
                     <Route path="register" element={<AuthView />} />
                 </Route>

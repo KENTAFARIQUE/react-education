@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import styles from "./admin.module.css"
 import Logo from '../../assets/Logo_Icon.svg?react'
 import SearchIco from '../../assets/Shape.svg?react'
@@ -8,16 +10,27 @@ import BlogIco from '../../assets/Blog Icon.svg?react'
 import BlogPostsIco from '../../assets/Blog Posts Icon.svg?react'
 import Avatar from '../../assets/Avatar.png'
 
-    //fetch('https://frontend-study.simbirsoft.dev/api/auth/login', {})
-
-    fetch('https://frontend-study.simbirsoft.dev/api/db/order', {
-        headers: {'accept': "application/json",
-             "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzX2luIjoiODY0MDAwMDAiLCJ1c2VyX2lkIjoiMSIsImlhdCI6MTc4MTc2NjU1OSwiZXhwIjoxNzgxNzcwMTU5fQ.prpmI6xcPSHG-wlQLdK2IckE4RoY7T6m0mAUsRxmTKI", 
-             "Access-Control-Allow-Origin": "*"}
-    })
 const AdminView = () => {
-    
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [searchValue, setSearchValue] = useState('');
+    const [profileOpen, setProfileOpen] = useState(false);
+    const profileRef = useRef<HTMLDivElement>(null);
 
+    const isActive = (path: string) =>
+        path === '/admin' && !location.pathname.startsWith('/admin/orders')
+            ? location.pathname === '/admin' || location.pathname === '/admin/'
+            : location.pathname.startsWith(path);
+
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+                setProfileOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
 
     return (
         <div className={styles.mainLayout}>  
@@ -27,30 +40,44 @@ const AdminView = () => {
                     <h1>Need for car</h1>
                 </div>
                 <div className={styles.btnCol}>
-                    <button className={styles.btn}><BlogIco className={styles.btnIco}/>Карточка автомобиля</button>
-                    <button className={styles.btn}><AddPostIco className={styles.btnIco}/>Список авто</button>
+                    <button className={`${styles.btn} ${isActive('/admin') && !isActive('/admin/orders') ? styles.btnActive : ''}`} onClick={() => navigate('/admin')}><BlogIco className={styles.btnIco}/>Карточка автомобиля</button>
+                    <button className={`${styles.btn} ${isActive('/admin/orders') ? styles.btnActive : ''}`} onClick={() => navigate('/admin/orders')}><AddPostIco className={styles.btnIco}/>Список заказов</button>
                     <button className={styles.btn}><BlogPostsIco className={styles.btnIco}/>Menu 4</button>
                 </div>
             </div>
             <div className={styles.mainSection}>
                 <header>
                     <div className={styles.searchField}>
-                        <SearchIco></SearchIco>Поиск ...
+                        <SearchIco></SearchIco>
+                        <input
+                            className={styles.searchInput}
+                            type="text"
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            placeholder="Поиск ..."
+                        />
                     </div>
                     <div className={styles.notificationsField}><NotificationIco></NotificationIco></div>
-                    <div className={styles.profileField}>
-                        <img src={Avatar} className={styles.avatar}/>
-                        <span>Admin</span>
-                        <DropdownIco className={styles.triangle}/>
-                        <div className={styles.dropDownTrig}></div>
+                    <div className={styles.profileWrapper} ref={profileRef}>
+                        <div className={styles.profileField} onClick={() => setProfileOpen(!profileOpen)}>
+                            <img src={Avatar} className={styles.avatar}/>
+                            <span>Admin</span>
+                            <DropdownIco className={styles.triangle}/>
+                        </div>
+                        {profileOpen && (
+                            <div className={styles.profileDropdown}>
+                                <button className={styles.dropdownItem}>Профиль</button>
+                                <button className={styles.dropdownItem}>Выйти</button>
+                            </div>
+                        )}
                     </div>
                 </header>
                 <div className={styles.pageContainer}>
-                    Содержимое
+                    <Outlet />
                 </div>
                 <footer>
                     <div className={styles.linksRow}>
-                        <a>Главная страница</a>
+                        <a href="https://kentafarique.github.io/react-education/" target="_blank" rel="noopener noreferrer">Главная страница</a>
                         <a>Ссылка</a>
                     </div>
                     <span>Copyright © 2020 Simbirsoft</span>

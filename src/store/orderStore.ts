@@ -37,6 +37,7 @@ export interface SavedOrder {
   isFullTank: boolean;
   isNeedChildChair: boolean;
   isRightWheel: boolean;
+  carThumbnail: string;
   createdAt: string;
 }
 
@@ -89,6 +90,7 @@ interface OrderStore {
   savedOrders: SavedOrder[]
   saveOrder: (order: Omit<SavedOrder, 'id' | 'createdAt'>) => number
   cancelOrder: (id: number) => void
+  updateOrderStatus: (id: number, statusId: number) => void
 
   isStepCompleted: (step: OrderStep) => boolean
   canNavigateToStep: (step: OrderStep) => boolean
@@ -262,6 +264,14 @@ export const useOrderStore = create<OrderStore>()(
     cancelOrder: (id) => {
       set((state) => ({
         savedOrders: state.savedOrders.filter((o) => o.id !== id),
+      }))
+    },
+
+    updateOrderStatus: (id, statusId) => {
+      set((state) => ({
+        savedOrders: state.savedOrders.map((o) =>
+          o.id === id ? { ...o, orderStatus_id: statusId } : o
+        ),
       }))
     },
 

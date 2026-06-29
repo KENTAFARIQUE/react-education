@@ -223,6 +223,7 @@ const OrderView = () => {
       isFullTank: additionalOptions.includes('fuel'),
       isNeedChildChair: additionalOptions.includes('chair'),
       isRightWheel: additionalOptions.includes('right'),
+      carThumbnail: selectedModel.thumbnail.path,
     });
 
     console.log('Сохранённые заказы:', useOrderStore.getState().savedOrders);
