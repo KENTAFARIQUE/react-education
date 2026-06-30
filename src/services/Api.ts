@@ -1,15 +1,38 @@
 const API_BASE_URL = import.meta.env.VITE_CARAPI_BASE_URL;
+const AUTH_BASE_URL = import.meta.env.VITE_AUTH_BASE_URL;
 
 if (!API_BASE_URL) {
   throw new Error('VITE_CARAPI_BASE_URL is not defined');
 }
 
+if (!AUTH_BASE_URL) {
+  throw new Error('VITE_AUTH_BASE_URL is not defined');
+}
+
+let _token: string | null = null;
+
+export function setToken(token: string | null) {
+  _token = token;
+}
+
+export function getToken() {
+  return _token;
+}
+
 async function fetchApi(endpoint: string, options?: RequestInit) {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (_token) {
+    headers['Authorization'] = `Bearer ${_token}`;
+  }
+
   const response = await fetch(
     `${API_BASE_URL}${endpoint}`,
     {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       ...options,
     }
   );
@@ -61,14 +84,74 @@ export const carApi = {
     ),
 
   getAllCars: () => carApi.get('car'),
+  getCar: (id: number) => carApi.get('car', id),
+
+  createCar: (data: Record<string, unknown>) =>
+    fetchApi('/car', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateCar: (id: number, data: Record<string, unknown>) =>
+    fetchApi(`/car/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteCar: (id: number) =>
+    fetchApi(`/car/${id}`, { method: 'DELETE' }),
 
   getAllCities: () => carApi.get('city'),
 
   getAllPoints: () => carApi.get('point'),
+  getPoint: (id: number) => carApi.get('point', id),
+
+  createPoint: (data: Record<string, unknown>) =>
+    fetchApi('/point', { method: 'POST', body: JSON.stringify(data) }),
+
+  updatePoint: (id: number, data: Record<string, unknown>) =>
+    fetchApi(`/point/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deletePoint: (id: number) =>
+    fetchApi(`/point/${id}`, { method: 'DELETE' }),
 
   createOrder: (order: OrderAttrs) =>
     fetchApi('/order', {
       method: 'POST',
       body: JSON.stringify(order),
     }),
+};
+
+async function authFetch(endpoint: string, username: string, password: string) {
+  const response = await fetch(`${AUTH_BASE_URL}${endpoint}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (!response.ok) {
+    const errorMessages: Record<number, string> = {
+      400: 'Неверный запрос. Проверьте логин и пароль.',
+      403: 'Неверный логин или пароль.',
+      404: 'Сервис авторизации недоступен.',
+      429: 'Слишком много запросов. Подождите минуту.',
+    };
+
+    const errorMessage =
+      errorMessages[response.status] ||
+      (response.status >= 500
+        ? 'Ошибка сервера. Попробуйте позже.'
+        : `HTTP ${response.status}`);
+
+    throw new Error(errorMessage);
+  }
+
+  return response.json() as Promise<{
+    access_token: string;
+    expires_in: number;
+    refresh_token: string;
+    token_type: string;
+    user_id: string;
+  }>;
+}
+
+export const authApi = {
+  login: (username: string, password: string) =>
+    authFetch('/login', username, password),
+  registration: (username: string, password: string) =>
+    authFetch('/registration', username, password),
 };

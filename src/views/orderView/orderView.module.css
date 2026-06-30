@@ -28,6 +28,15 @@
 	margin-top: 8px;
 }
 
+.orderTitle {
+	margin-top: 8px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #000;
+}
+
+
+
 hr {
 	width: 100vw;
 	position: relative;
