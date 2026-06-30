@@ -7,6 +7,7 @@ import AdminView from './views/admin/AdminView';
 import OrderListView from './views/admin/OrderListView';
 import CarListView from './views/admin/CarListView';
 import PointListView from './views/admin/PointListView';
+import ErrorView from './views/admin/ErrorView';
 import AuthView from './views/admin/forms/AuthView';
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
                         <Route path="cars" element={<CarListView />} />
                         <Route path="points" element={<PointListView />} />
                         <Route path="orders" element={<OrderListView />} />
+                        <Route path="error/:code" element={<ErrorView />} />
+                        <Route path="*" element={<Navigate to="/admin/error/404" replace />} />
                     </Route>
                     <Route path="login" element={<AuthView />} />
                     <Route path="register" element={<AuthView />} />
