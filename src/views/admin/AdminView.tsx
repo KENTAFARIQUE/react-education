@@ -18,9 +18,7 @@ const AdminView = () => {
     const profileRef = useRef<HTMLDivElement>(null);
 
     const isActive = (path: string) =>
-        path === '/admin' && !location.pathname.startsWith('/admin/orders')
-            ? location.pathname === '/admin' || location.pathname === '/admin/'
-            : location.pathname.startsWith(path);
+        location.pathname.startsWith(path);
 
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
@@ -40,7 +38,8 @@ const AdminView = () => {
                     <h1>Need for car</h1>
                 </div>
                 <div className={styles.btnCol}>
-                    <button className={`${styles.btn} ${isActive('/admin') && !isActive('/admin/orders') ? styles.btnActive : ''}`} onClick={() => navigate('/admin')}><BlogIco className={styles.btnIco}/>Карточка автомобиля</button>
+                    <button className={`${styles.btn} ${isActive('/admin/cars') ? styles.btnActive : ''}`} onClick={() => navigate('/admin/cars')}><BlogPostsIco className={styles.btnIco}/>Список автомобилей</button>
+                    <button className={`${styles.btn} ${isActive('/admin/points') ? styles.btnActive : ''}`} onClick={() => navigate('/admin/points')}><BlogIco className={styles.btnIco}/>Пункты выдачи</button>
                     <button className={`${styles.btn} ${isActive('/admin/orders') ? styles.btnActive : ''}`} onClick={() => navigate('/admin/orders')}><AddPostIco className={styles.btnIco}/>Список заказов</button>
                     <button className={styles.btn}><BlogPostsIco className={styles.btnIco}/>Menu 4</button>
                 </div>

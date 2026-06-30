@@ -61,5 +61,6 @@ export function useCars() {
         cars,
         loading,
         error,
+        setCars,
     };
 }

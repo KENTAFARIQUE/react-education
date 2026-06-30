@@ -27,7 +27,7 @@
 }
 
 header .searchField {
-    font-family: Helvetica;
+    font-family: Helvetica, Arial, sans-serif;
     font-weight: 400;
     font-size: 13px;
     line-height: 100%;
@@ -53,7 +53,7 @@ header .searchField {
 }
 
 header .profileField {
-    font-family: Helvetica;
+    font-family: Helvetica, Arial, sans-serif;
     font-weight: 400;
     font-size: 15px;
     line-height: 100%;
@@ -91,7 +91,7 @@ header .profileField {
     padding: 10px 16px;
     border: none;
     background: none;
-    font-family: Helvetica;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: #3D5170;
     text-align: left;
