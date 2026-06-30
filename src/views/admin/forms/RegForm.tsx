@@ -1,42 +1,48 @@
 import { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from "./auth.module.css"
-import { validateEmail, validatePassword, validatePasswordConfirm, sanitizeEmail, INPUT_MAX_LENGTH } from "./validation";
+import { validateUsername, validatePassword, validatePasswordConfirm, INPUT_MAX_LENGTH } from "./validation";
 import { EyeOpen, EyeClosed } from "./icons";
+import { useAuthStore } from '../../../store/authStore';
 
 const RegForm = () => {
-    const [email, setEmail] = useState('');
+    const navigate = useNavigate();
+    const register = useAuthStore((s) => s.register);
+
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [errors, setErrors] = useState<{ email?: string; password?: string; confirm?: string }>({});
+    const [errors, setErrors] = useState<{ username?: string; password?: string; confirm?: string }>({});
+    const [apiError, setApiError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleEmailBlur = useCallback(() => {
-        const sanitized = sanitizeEmail(email);
-        if (sanitized !== email) {
-            setEmail(sanitized);
-        }
-    }, [email]);
-
-    const handleSubmit = useCallback(() => {
-        const sanitizedEmail = sanitizeEmail(email);
-        setEmail(sanitizedEmail);
-
-        const emailError = validateEmail(sanitizedEmail);
+    const handleSubmit = useCallback(async () => {
+        const usernameError = validateUsername(username);
         const passwordError = validatePassword(password);
         const confirmError = validatePasswordConfirm(password, confirm);
 
         setErrors({
-            email: emailError ?? undefined,
+            username: usernameError ?? undefined,
             password: passwordError ?? undefined,
             confirm: confirmError ?? undefined,
         });
 
-        if (!emailError && !passwordError && !confirmError) {
-            console.log('Register:', sanitizedEmail, password);
+        if (usernameError || passwordError || confirmError) return;
+
+        setLoading(true);
+        setApiError(null);
+
+        try {
+            await register(username.trim(), password);
+            navigate('/admin/cars', { replace: true });
+        } catch (err: any) {
+            setApiError(err.message || 'Ошибка регистрации');
+        } finally {
+            setLoading(false);
         }
-    }, [email, password, confirm]);
+    }, [username, password, confirm, register, navigate]);
 
     return (
         <div className={styles.login_container}>
@@ -44,16 +50,15 @@ const RegForm = () => {
                 <span>Регистрация</span>
             </div>
             <div className={styles.input_container}>
-                <div className={`${styles.inputRow}${errors.email ? ` ${styles.hasError}` : ''}`}>
-                    <span>Почта</span>
+                {apiError && <div className={styles.apiError}>{apiError}</div>}
+                <div className={`${styles.inputRow}${errors.username ? ` ${styles.hasError}` : ''}`}>
+                    <span>Логин</span>
                     <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onBlur={handleEmailBlur}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         maxLength={INPUT_MAX_LENGTH}
-                        placeholder="example@mail.com"
                     />
-                    {errors.email && <span className={styles.error}>{errors.email}</span>}
+                    {errors.username && <span className={styles.error}>{errors.username}</span>}
                 </div>
                 <div className={`${styles.inputRow}${errors.password ? ` ${styles.hasError}` : ''}`}>
                     <span>Пароль</span>
@@ -97,7 +102,7 @@ const RegForm = () => {
             <div className={styles.bottom_container}>
                 <a>Запросить доступ</a>
                 <Link to="/admin/login">Войти</Link>
-                <button onClick={handleSubmit}>Регистрация</button>
+                <button onClick={handleSubmit} disabled={loading}>Регистрация</button>
             </div>
         </div>
     )

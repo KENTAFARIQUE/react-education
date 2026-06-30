@@ -155,6 +155,18 @@ h1 {
     cursor: pointer;
 }
 
+.apiError {
+    background: #F8D7DA;
+    border: 1px solid #F5C6CB;
+    color: #721C24;
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+}
+
 .logo {
     display: flex;
     gap: 11px;

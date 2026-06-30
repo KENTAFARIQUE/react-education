@@ -9,10 +9,12 @@ import AddPostIco from '../../assets/Add New Post Icon.svg?react'
 import BlogIco from '../../assets/Blog Icon.svg?react'
 import BlogPostsIco from '../../assets/Blog Posts Icon.svg?react'
 import Avatar from '../../assets/Avatar.png'
+import { useAuthStore } from '../../store/authStore'
 
 const AdminView = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const logout = useAuthStore((s) => s.logout);
     const [searchValue, setSearchValue] = useState('');
     const [profileOpen, setProfileOpen] = useState(false);
     const profileRef = useRef<HTMLDivElement>(null);
@@ -66,7 +68,7 @@ const AdminView = () => {
                         {profileOpen && (
                             <div className={styles.profileDropdown}>
                                 <button className={styles.dropdownItem}>Профиль</button>
-                                <button className={styles.dropdownItem}>Выйти</button>
+                                <button className={styles.dropdownItem} onClick={() => { logout(); navigate('/admin/login'); }}>Выйти</button>
                             </div>
                         )}
                     </div>
