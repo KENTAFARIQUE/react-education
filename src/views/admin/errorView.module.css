@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 68px - 68px - 56px);
+    gap: 12px;
+    text-align: center;
+}
+
+.code {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 96px;
+    font-weight: 700;
+    line-height: 1;
+    color: #D7DAE3;
+}
+
+.title {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    color: #3D5170;
+    margin: 0;
+}
+
+.message {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #889098;
+    margin: 0 0 8px 0;
+}
+
+.backBtn {
+    background: #007BFF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.backBtn:hover {
+    background: #0069D9;
+}

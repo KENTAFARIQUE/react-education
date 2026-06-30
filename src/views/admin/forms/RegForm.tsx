@@ -1,13 +1,10 @@
 import { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import styles from "./auth.module.css"
 import { validateEmail, validatePassword, validatePasswordConfirm, sanitizeEmail, INPUT_MAX_LENGTH } from "./validation";
 import { EyeOpen, EyeClosed } from "./icons";
 
-interface RegFormProps {
-    onSwitch: () => void;
-}
-
-const RegForm = ({ onSwitch }: RegFormProps) => {
+const RegForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
@@ -99,7 +96,7 @@ const RegForm = ({ onSwitch }: RegFormProps) => {
             </div>
             <div className={styles.bottom_container}>
                 <a>Запросить доступ</a>
-                <a onClick={onSwitch}>Войти</a>
+                <Link to="/admin/login">Войти</Link>
                 <button onClick={handleSubmit}>Регистрация</button>
             </div>
         </div>
