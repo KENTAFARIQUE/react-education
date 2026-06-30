@@ -1,9 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import MainView from './views/mainView/MainView';
 import OrderView from './views/orderView/OrderView';
 import AdminView from './views/admin/AdminView';
+import OrderListView from './views/admin/OrderListView';
+import CarListView from './views/admin/CarListView';
+import PointListView from './views/admin/PointListView';
 import AuthView from './views/admin/forms/AuthView';
 
 function App() {
@@ -17,8 +20,14 @@ function App() {
                     <Route path="/order/:step" element={<OrderView />} />
                 </Route>
                 <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<AdminView />} />
+                    <Route element={<AdminView />}>
+                        <Route index element={<Navigate to="cars" replace />} />
+                        <Route path="cars" element={<CarListView />} />
+                        <Route path="points" element={<PointListView />} />
+                        <Route path="orders" element={<OrderListView />} />
+                    </Route>
                     <Route path="login" element={<AuthView />} />
+                    <Route path="register" element={<AuthView />} />
                 </Route>
             </Routes>
         </BrowserRouter>

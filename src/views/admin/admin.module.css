@@ -1,3 +1,218 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.mainLayout {
+    display: grid;
+    grid-template-columns: 0.20fr 0.80fr; 
+    background-color: #F5F6F8;
+    height: 100%;
+}
+
+.mainSection {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.mainSection header {
+    height: 68px;
+    padding: 0px 28px 0px 28px;
+    display: flex;
+    flex-direction: row;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2.5px 9.5px 0px #5A61691F;
+    color: #767F9D;
+}
+
+header .searchField {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: -0.09px;
+    color: #767F9D;
+
+    display: flex;
+    flex-direction: row;
+    gap: 9px;
+    flex: 1;
+    align-items: center;
+    cursor: pointer;
+}
+
+.searchInput {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    flex: 1;
+}
+
+header .profileField {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 100%;
+    letter-spacing: -0.47px;
+    color: #5A6169;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 26.5px;
+    cursor: pointer;
+}
+
+.profileWrapper {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.profileDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border: 1px solid #D7DAE3;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0px 4px 12px 0px #5A616930;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.dropdownItem {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #3D5170;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.dropdownItem:hover {
+    background: #F5F6F8;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.notificationsField {
+    width: 69.5px;
+    height: 67.5px;
+    border: 1px solid #F5F6F8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.pageContainer {
+    flex: 1;
+    padding: 28px;
+    overflow-y: auto;
+}
+
+.mainSection footer {
+    background-color: #FFFFFF;
+    height: 68px;
+    box-shadow: 0px -0.5px 0px 0px #D7DAE3;
+    color: #3D5170;
+    padding: 0px 28px 0px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mainSection footer a{
+    color: #007BFF;
+    cursor: pointer;
+}
+
+.linksRow {
+    display: flex;
+    gap: 16px;
+}
+
+.logo {
+    display: flex;
+    gap: 7px;
+    margin: 16px;
+    height: 22px;
+    margin: 23px;
+}
+
+.logo .logoPic{
+    width: 22px;
+    height: 22px;
+}
+
+.logo h1 {
+    font-size: 16px;
+    margin-top: 4px;
+    color: #3D5170;
+    font-weight: 400;
+}
+
+.sideBar {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 0px 3.5px 17.5px 0px #A5B6C91A, 
+        0px 7.5px 11px 0px #5A61691A, 
+        0px 2px 4px 0px #5A61691F, 
+        0px 1px 75px 0px #5A61691C;
+
+}
+
+.btnCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    background-color: #FFFFFF;
+    border: 1px solid #F5F6F8;
+    border-radius: 0;
+    height: 58px;
+    color: #3D5170;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    padding-left: 23px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #F0F1F4;
+}
+
+.btnActive {
+    background-color: #E8EBF0;
+    border-left: 3px solid #007BFF;
+    padding-left: 20px;
+}
+
+.btnActive .btnIco path {
+    fill: #007BFF !important;
+}
+
+.btnIco {
+    width: 16px;
+    height: 16px;
+}
+
