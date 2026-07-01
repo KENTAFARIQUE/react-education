@@ -1,0 +1,195 @@
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.label {
+    margin: 0;
+}
+
+.addBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #007BFF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.addBtn:hover {
+    background: #0069D9;
+}
+
+.carPanel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px 0px #5A61691A, 0px 2px 9px 0px #5A61691F;
+    padding: 20px;
+    min-height: 0;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.carList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.carRow {
+    display: flex;
+    align-items: center;
+    padding: 0 0 12px 0;
+    gap: 16px;
+    border-bottom: 1px solid #F5F6F8;
+    animation: fadeInUp 0.35s ease-out backwards;
+}
+
+.carRow:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.carRow:nth-child(1) { animation-delay: 0.05s; }
+.carRow:nth-child(2) { animation-delay: 0.10s; }
+.carRow:nth-child(3) { animation-delay: 0.15s; }
+.carRow:nth-child(4) { animation-delay: 0.20s; }
+
+.carImageCol {
+    flex-shrink: 0;
+    width: 120px;
+    height: 80px;
+}
+
+.carImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #F5F6F8;
+}
+
+.carInfoCol {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.carTitle {
+    font-size: 15px;
+    font-weight: 400;
+    color: #121212;
+}
+
+.carSubtitle {
+    font-size: 13px;
+    color: #889098;
+}
+
+.carDetail {
+    font-size: 13px;
+    color: #889098;
+}
+
+.carPriceCol {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 140px;
+}
+
+.carPrice {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: -0.75px;
+    color: #121212;
+}
+
+.carPriceDelim {
+    font-size: 13px;
+    color: #889098;
+}
+
+.carDescCol {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    color: #889098;
+    line-height: 1.4;
+}
+
+.carActionsCol {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    border: 1px solid #BECAD6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.actionBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFFFFF;
+    color: #121212;
+    border: none;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+}
+
+.actionBtn:hover {
+    transform: scale(1.08);
+}
+
+.actionBtnOutline {
+    border-right: 1px solid #BECAD6;
+}
+
+.actionBtnDanger {
+    color: #DC3545;
+}
+
+.actionBtn:hover {
+    background: #F5F6F8;
+}
+
+.emptyState {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: #889098;
+    font-size: 15px;
+    margin: 0;
+    min-height: 340px;
+}

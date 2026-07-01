@@ -1,41 +1,44 @@
 import { useState, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from "./auth.module.css"
-import { validateEmail, validatePassword, sanitizeEmail, INPUT_MAX_LENGTH } from "./validation";
+import { validateUsername, validatePassword, INPUT_MAX_LENGTH } from "./validation";
 import { EyeOpen, EyeClosed } from "./icons";
+import { useAuthStore } from '../../../store/authStore';
 
-interface LoginFormProps {
-    onSwitch: () => void;
-}
+const LoginForm = () => {
+    const navigate = useNavigate();
+    const login = useAuthStore((s) => s.login);
 
-const LoginForm = ({ onSwitch }: LoginFormProps) => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+    const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+    const [apiError, setApiError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleEmailBlur = useCallback(() => {
-        const sanitized = sanitizeEmail(email);
-        if (sanitized !== email) {
-            setEmail(sanitized);
-        }
-    }, [email]);
-
-    const handleSubmit = useCallback(() => {
-        const sanitizedEmail = sanitizeEmail(email);
-        setEmail(sanitizedEmail);
-
-        const emailError = validateEmail(sanitizedEmail);
+    const handleSubmit = useCallback(async () => {
+        const usernameError = validateUsername(username);
         const passwordError = validatePassword(password);
 
         setErrors({
-            email: emailError ?? undefined,
+            username: usernameError ?? undefined,
             password: passwordError ?? undefined,
         });
 
-        if (!emailError && !passwordError) {
-            console.log('Login:', sanitizedEmail, password);
+        if (usernameError || passwordError) return;
+
+        setLoading(true);
+        setApiError(null);
+
+        try {
+            await login(username.trim(), password);
+            navigate('/admin/cars', { replace: true });
+        } catch (err: any) {
+            setApiError(err.message || 'Ошибка авторизации');
+        } finally {
+            setLoading(false);
         }
-    }, [email, password]);
+    }, [username, password, login, navigate]);
 
     return (
         <div className={styles.login_container}>
@@ -43,16 +46,15 @@ const LoginForm = ({ onSwitch }: LoginFormProps) => {
                 <span>Вход</span>
             </div>
             <div className={styles.input_container}>
-                <div className={`${styles.inputRow}${errors.email ? ` ${styles.hasError}` : ''}`}>
-                    <span>Почта</span>
+                {apiError && <div className={styles.apiError}>{apiError}</div>}
+                <div className={`${styles.inputRow}${errors.username ? ` ${styles.hasError}` : ''}`}>
+                    <span>Логин</span>
                     <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onBlur={handleEmailBlur}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         maxLength={INPUT_MAX_LENGTH}
-                        placeholder="example@mail.com"
                     />
-                    {errors.email && <span className={styles.error}>{errors.email}</span>}
+                    {errors.username && <span className={styles.error}>{errors.username}</span>}
                 </div>
                 <div className={`${styles.inputRow}${errors.password ? ` ${styles.hasError}` : ''}`}>
                     <span>Пароль</span>
@@ -76,8 +78,8 @@ const LoginForm = ({ onSwitch }: LoginFormProps) => {
             </div>
             <div className={styles.bottom_container}>
                 <a>Запросить доступ</a>
-                <a onClick={onSwitch}>Регистрация</a>
-                <button onClick={handleSubmit}>Войти</button>
+                <Link to="/admin/register">Регистрация</Link>
+                <button onClick={handleSubmit} disabled={loading}>Войти</button>
             </div>
         </div>
     )

@@ -47,6 +47,20 @@ export function validatePasswordConfirm(password: string, confirm: string): stri
     return null;
 }
 
+export function validateUsername(username: string): string | null {
+    const trimmed = username.trim();
+
+    if (trimmed.length === 0) {
+        return 'Введите имя пользователя';
+    }
+
+    if (trimmed.length > INPUT_MAX_LENGTH) {
+        return `Имя пользователя не может превышать ${INPUT_MAX_LENGTH} символов`;
+    }
+
+    return null;
+}
+
 export function sanitizeEmail(email: string): string {
     return email.trim();
 }
