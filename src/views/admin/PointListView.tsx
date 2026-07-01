@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { carApi } from '../../services/Api';
 import { useAllPoints } from '../../hooks/useAllPoints';
 import type { PointAttrs } from '../../types/geo';
@@ -11,6 +12,7 @@ import DeleteIco from '../../assets/cross.svg?react';
 const PAGE_SIZE = 4;
 
 const PointListView = () => {
+  const navigate = useNavigate();
   const { points, loading, error, setPoints } = useAllPoints();
   const [page, setPage] = useState(1);
 
@@ -55,11 +57,11 @@ const PointListView = () => {
   };
 
   const handleEdit = (point: PointAttrs) => {
-    alert(`Редактировать пункт #${point.id} — «${point.name}»`);
+    navigate(`/admin/points/${point.id}/edit`);
   };
 
   const handleAdd = () => {
-    alert('Добавить новый пункт выдачи');
+    navigate('/admin/points/new');
   };
 
   if (loading) {

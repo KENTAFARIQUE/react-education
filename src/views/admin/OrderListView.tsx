@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrderStore } from '../../store/orderStore';
-import type { SavedOrder } from '../../store/orderStore';
 import OrderFilters from '../../components/admin/OrderFilters';
 import Pagination from '../../components/admin/Pagination';
 import styles from "./orderListView.module.css"
@@ -138,7 +137,7 @@ const OrderListView = () => {
       ) : (
         <>
           <div className={styles.orderList}>
-            {pageOrders.map((order: SavedOrder) => (
+            {pageOrders.map((order) => (
               <div key={order.id} className={styles.orderRow}>
                 <div className={styles.orderImageCol}>
                   <img
@@ -180,21 +179,21 @@ const OrderListView = () => {
                 </div>
 
                 <div className={styles.orderActionsCol}>
-                  <button
-                    className={styles.actionBtn}
-                    onClick={() => updateOrderStatus(order.id, 2)}
-                  >
-                    <CheckIco /> Готово
-                  </button>
-                  <button
-                    className={`${styles.actionBtn} ${styles.actionBtnDanger}`}
-                    onClick={() => updateOrderStatus(order.id, 3)}
-                  >
-                    <CrossIco /> Отмена
-                  </button>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={() => updateOrderStatus(order.id, 2)}
+                    >
+                      <CheckIco /> Готово
+                    </button>
+                    <button
+                      className={`${styles.actionBtn} ${styles.actionBtnDanger}`}
+                      onClick={() => updateOrderStatus(order.id, 3)}
+                    >
+                      <CrossIco /> Отмена
+                    </button>
                   <button
                     className={`${styles.actionBtn} ${styles.actionBtnOutline}`}
-                    onClick={() => navigate(`/order/${order.id}`)}
+                    onClick={() => navigate(`/admin/orders/${order.id}/edit`)}
                   >
                     <TripointsIco /> Изменить
                   </button>

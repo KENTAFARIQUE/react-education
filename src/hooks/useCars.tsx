@@ -33,19 +33,22 @@ export function useCars() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         const fetchCars = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
                 const response: CarsResponse =
-                    await carApi.getAllCars();
+                    await carApi.getAllCars(abortController.signal);
 
                 setCars(response.data || []);
-            } catch (err: any) {
+            } catch (err: unknown) {
+                if (err instanceof DOMException && err.name === 'AbortError') return;
+
                 setError(
-                    err.message ||
-                    'Произошла ошибка при загрузке автомобилей'
+                    err instanceof Error ? err.message : 'Произошла ошибка при загрузке автомобилей'
                 );
 
                 setCars([]);
@@ -55,6 +58,8 @@ export function useCars() {
         };
 
         fetchCars();
+
+        return () => abortController.abort();
     }, []);
 
     return {

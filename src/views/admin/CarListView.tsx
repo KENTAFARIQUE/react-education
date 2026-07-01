@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { carApi } from '../../services/Api';
 import { useCars } from '../../hooks/useCars';
 import type { Car } from '../../hooks/useCars';
@@ -20,6 +21,7 @@ function truncate(text: string, max: number) {
 }
 
 const CarListView = () => {
+  const navigate = useNavigate();
   const { cars, loading, error, setCars } = useCars();
   const [page, setPage] = useState(1);
 
@@ -75,11 +77,11 @@ const CarListView = () => {
   };
 
   const handleEdit = (car: Car) => {
-    alert(`Редактировать автомобиль #${car.id} — «${car.name}»`);
+    navigate(`/admin/cars/${car.id}/edit`);
   };
 
   const handleAdd = () => {
-    alert('Добавить новый автомобиль');
+    navigate('/admin/cars/new');
   };
 
   if (loading) {

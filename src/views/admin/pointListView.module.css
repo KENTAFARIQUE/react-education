@@ -41,6 +41,7 @@
 .pointPanel {
     display: flex;
     flex-direction: column;
+    flex: 1;
     background: #FFFFFF;
     border-radius: 8px;
     box-shadow: 0px 1px 3px 0px #5A61691A, 0px 2px 9px 0px #5A61691F;

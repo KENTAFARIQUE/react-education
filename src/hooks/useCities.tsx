@@ -8,37 +8,31 @@ export function useCities() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
+    const abortController = new AbortController();
 
     const fetchCities = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response: GeoResponse<CityAttrs> = await carApi.getAllCities();
+        const response: GeoResponse<CityAttrs> = await carApi.getAllCities(abortController.signal);
 
-        if (!cancelled) {
-          setCities(response.data || []);
-        }
-      } catch (err: any) {
-        if (!cancelled) {
-          setError(
-            err.message || 'Произошла ошибка при загрузке городов'
-          );
-          setCities([]);
-        }
+        setCities(response.data || []);
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+
+        setError(
+          err instanceof Error ? err.message : 'Произошла ошибка при загрузке городов'
+        );
+        setCities([]);
       } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
     fetchCities();
 
-    return () => {
-      cancelled = true;
-    };
+    return () => abortController.abort();
   }, []);
 
   return { cities, loading, error };

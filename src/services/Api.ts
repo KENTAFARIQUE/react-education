@@ -1,5 +1,10 @@
-const API_BASE_URL = import.meta.env.VITE_CARAPI_BASE_URL;
-const AUTH_BASE_URL = import.meta.env.VITE_AUTH_BASE_URL;
+const API_BASE_URL = import.meta.env.DEV
+  ? '/api/db'
+  : import.meta.env.VITE_CARAPI_BASE_URL;
+
+const AUTH_BASE_URL = import.meta.env.DEV
+  ? '/api/auth'
+  : import.meta.env.VITE_AUTH_BASE_URL;
 
 if (!API_BASE_URL) {
   throw new Error('VITE_CARAPI_BASE_URL is not defined');
@@ -57,6 +62,23 @@ async function fetchApi(endpoint: string, options?: RequestInit) {
   return response.json();
 }
 
+export interface ApiOrder {
+  id: number;
+  orderStatusId: { id: number; name?: string };
+  cityId: { id: number; name: string };
+  pointId: { id: number; name: string; address?: string };
+  carId: { id: number; name: string; thumbnail?: { path: string } };
+  rateId: { id: number; name?: string };
+  color: string;
+  dateFrom: number;
+  dateTo: number;
+  price: number;
+  isFullTank: boolean;
+  isNeedChildChair: boolean;
+  isRightWheel: boolean;
+  createdAt: string;
+}
+
 export interface OrderAttrs {
   id: number;
   orderStatus_id: number;
@@ -77,13 +99,15 @@ export const carApi = {
   get: (
     resource: string,
     id?: string | number,
-    relation?: string
+    relation?: string,
+    signal?: AbortSignal
   ) =>
     fetchApi(
-      `/${resource}${id ? `/${id}` : ''}${relation ? `/${relation}` : ''}`
+      `/${resource}${id ? `/${id}` : ''}${relation ? `/${relation}` : ''}`,
+      signal ? { signal } : undefined
     ),
 
-  getAllCars: () => carApi.get('car'),
+  getAllCars: (signal?: AbortSignal) => carApi.get('car', undefined, undefined, signal),
   getCar: (id: number) => carApi.get('car', id),
 
   createCar: (data: Record<string, unknown>) =>
@@ -95,9 +119,9 @@ export const carApi = {
   deleteCar: (id: number) =>
     fetchApi(`/car/${id}`, { method: 'DELETE' }),
 
-  getAllCities: () => carApi.get('city'),
+  getAllCities: (signal?: AbortSignal) => carApi.get('city', undefined, undefined, signal),
 
-  getAllPoints: () => carApi.get('point'),
+  getAllPoints: (signal?: AbortSignal) => carApi.get('point', undefined, undefined, signal),
   getPoint: (id: number) => carApi.get('point', id),
 
   createPoint: (data: Record<string, unknown>) =>
@@ -114,6 +138,8 @@ export const carApi = {
       method: 'POST',
       body: JSON.stringify(order),
     }),
+
+  getAllOrders: (signal?: AbortSignal) => carApi.get('order', undefined, undefined, signal),
 };
 
 async function authFetch(endpoint: string, username: string, password: string) {

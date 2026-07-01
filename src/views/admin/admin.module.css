@@ -14,6 +14,7 @@
     flex-direction: column;
     flex: 1;
     min-height: 0;
+    position: relative;
 }
 
 .mainSection header {
@@ -118,10 +119,55 @@ header .profileField {
     cursor: pointer;
 }
 
+.toast {
+  position: absolute;
+  top: 68px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px;
+  background: #0EC261;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideDown 0.3s ease-out;
+}
+
+.toastClose {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.toastClose:hover {
+  opacity: 1;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .pageContainer {
     flex: 1;
     padding: 28px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .mainSection footer {

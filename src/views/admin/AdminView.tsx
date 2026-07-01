@@ -18,6 +18,13 @@ const AdminView = () => {
     const [searchValue, setSearchValue] = useState('');
     const [profileOpen, setProfileOpen] = useState(false);
     const profileRef = useRef<HTMLDivElement>(null);
+    const [toast, setToast] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (location.state?.success) {
+            setToast(location.state.success);
+        }
+    }, [location.state]);
 
     const isActive = (path: string) =>
         location.pathname.startsWith(path);
@@ -33,7 +40,7 @@ const AdminView = () => {
     }, []);
 
     return (
-        <div className={styles.mainLayout}>  
+        <div className={styles.mainLayout}>
             <div className={styles.sideBar}>
                 <div className={styles.logo}>
                     <Logo className={styles.logoPic}/>
@@ -73,6 +80,12 @@ const AdminView = () => {
                         )}
                     </div>
                 </header>
+                {toast && (
+                    <div className={styles.toast}>
+                        <span>{toast}</span>
+                        <button className={styles.toastClose} onClick={() => { setToast(null); navigate(location.pathname, { replace: true }); }}>✕</button>
+                    </div>
+                )}
                 <div className={styles.pageContainer}>
                     <Outlet />
                 </div>

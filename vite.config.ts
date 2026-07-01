@@ -13,5 +13,11 @@ export default defineConfig({
 		hmr: {
 			overlay: false,
 		},
+		proxy: {
+			'/api': {
+				target: 'https://frontend-study.simbirsoft.dev',
+				changeOrigin: true,
+			},
+		},
 	},
 })

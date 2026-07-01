@@ -9,6 +9,9 @@ import CarListView from './views/admin/CarListView';
 import PointListView from './views/admin/PointListView';
 import ErrorView from './views/admin/ErrorView';
 import AuthView from './views/admin/forms/AuthView';
+import CarForm from './views/admin/forms/CarForm';
+import PointForm from './views/admin/forms/PointForm';
+import OrderForm from './views/admin/forms/OrderForm';
 
 function App() {
 
@@ -24,8 +27,13 @@ function App() {
                     <Route element={<AdminView />}>
                         <Route index element={<Navigate to="cars" replace />} />
                         <Route path="cars" element={<CarListView />} />
+                        <Route path="cars/new" element={<CarForm />} />
+                        <Route path="cars/:id/edit" element={<CarForm />} />
                         <Route path="points" element={<PointListView />} />
+                        <Route path="points/new" element={<PointForm />} />
+                        <Route path="points/:id/edit" element={<PointForm />} />
                         <Route path="orders" element={<OrderListView />} />
+                        <Route path="orders/:id/edit" element={<OrderForm />} />
                         <Route path="error/:code" element={<ErrorView />} />
                         <Route path="*" element={<Navigate to="/admin/error/404" replace />} />
                     </Route>
